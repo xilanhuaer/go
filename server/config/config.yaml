@@ -1,0 +1,6 @@
+database:
+  username: 'root'
+  password: 'tiger'
+  host: 172.17.0.4
+  port: 3306
+  dbname: test
