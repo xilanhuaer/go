@@ -10,17 +10,13 @@ import (
 type UserService struct {
 }
 
-// Path: go/server/service/impl/user_service.go
 // 用户注册
 func (u *UserService) Register(user *entity.User) (err error) {
-	// 获取用户信息
 	var (
 		userinfo entity.User
 		isValid  bool
 	)
-	// 使用账号查询用户是否存在
-	if err = global.DB.Where("account = ?", user.Account).First(&userinfo).Error; err != nil {
-		// 验证账号、密码、邮箱、电话号码格式
+	if err = global.DB.Where("account=?", user.Account).First(&userinfo).Error; err != nil {
 		isValid = utils.CheckAccount(user.Account)
 		if !isValid {
 			return fmt.Errorf("账号格式错误")
@@ -35,39 +31,15 @@ func (u *UserService) Register(user *entity.User) (err error) {
 		}
 		isValid = utils.CheckPhone(user.Phone)
 		if !isValid {
-			return fmt.Errorf("电话号码格式错误")
+			return fmt.Errorf("手机号格式错误")
 		}
-		// 对密码进行加密
-		user.Password = utils.SHA256V(user.Password)
-		// 创建用户
-		if err = global.DB.Create(&user).Error; err != nil {
+		err = global.DB.Create(&user).Error
+		if err != nil {
 			return err
 		}
 	}
-	return fmt.Errorf("账号已存在")
+	return fmt.Errorf("用户已存在")
 }
-
-// 修改密码
-// func (u *UserService) ChangePassword(user *entity.User, c *gin.Context) (err error) {
-// 	// 获取用户信息
-// 	var (
-// 		isValid bool
-// 	)
-// 	// 使用账号查询用户是否存在
-// 	if err = global.DB.Where("account=?", user.Account).First(&user).Error; err != nil {
-// 		return err
-// 	}
-// 	// 验证密码格式
-// 	isValid = utils.CheckPassword(user.Password)
-// 	if !isValid {
-// 		return fmt.Errorf("密码格式错误")
-// 	}
-// 	// 创建用户
-// 	if err = global.DB.Create(&user).Error; err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
 
 // 用户登录
 func (us *UserService) Login(user entity.User) (userinfo entity.UserInfo, err error) {
