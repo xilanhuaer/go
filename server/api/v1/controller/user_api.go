@@ -52,7 +52,7 @@ func (ua *UserApi) UserLogin(c *gin.Context) {
 
 // 查看用户信息
 func (ua *UserApi) UserInfo(c *gin.Context) {
-	id := c.MustGet("userId").(string)
+	id := c.MustGet("userId").(uint)
 	log.Println(id)
 	userinfo, err := userService.FindUserInfo(id)
 	if err != nil {
@@ -66,7 +66,7 @@ func (ua *UserApi) UserInfo(c *gin.Context) {
 func (ua *UserApi) UpdatePassword(c *gin.Context) {
 	var (
 		editPassword entity.EditPassword
-		userId       = c.GetString("userId")
+		userId       = c.MustGet("userId").(uint)
 	)
 	if err := c.ShouldBindJSON(&editPassword); err != nil {
 		response.FailWithMessage(err.Error(), c)

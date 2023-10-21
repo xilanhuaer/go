@@ -70,7 +70,7 @@ func (us *UserService) Login(user entity.User) (userinfo entity.UserInfo, err er
 }
 
 // 查看用户信息
-func (us *UserService) FindUserInfo(id string) (userinfo entity.UserInfo, err error) {
+func (us *UserService) FindUserInfo(id uint) (userinfo entity.UserInfo, err error) {
 	var (
 		user entity.User
 	)
@@ -88,7 +88,7 @@ func (us *UserService) FindUserInfo(id string) (userinfo entity.UserInfo, err er
 }
 
 // 修改密码
-func (us *UserService) UpdatePassword(id string, editPassword entity.EditPassword) (err error) {
+func (us *UserService) UpdatePassword(id uint, editPassword entity.EditPassword) (err error) {
 	var (
 		userinfo entity.User
 	)
