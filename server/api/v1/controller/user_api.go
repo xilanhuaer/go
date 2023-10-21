@@ -3,6 +3,7 @@ package controller
 import (
 	"interface/model/common/response"
 	"interface/model/entity"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -52,6 +53,7 @@ func (ua *UserApi) UserLogin(c *gin.Context) {
 // 查看用户信息
 func (ua *UserApi) UserInfo(c *gin.Context) {
 	id := c.GetString("userId")
+	log.Println(id)
 	userinfo, err := userService.FindUserInfo(id)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
