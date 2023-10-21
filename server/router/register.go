@@ -13,7 +13,7 @@ func Register(route *gin.Engine) {
 	{
 		userGroup.POST("/register", userApi.UserRegister)
 		userGroup.POST("/login", userApi.UserLogin)
-		userGroup.POST("/info", jwtApi.JWTAuthMiddleware(), userApi.UserInfo)
+		userGroup.GET("/info", jwtApi.JWTAuthMiddleware(), userApi.UserInfo)
 		userGroup.POST("/edit_password", jwtApi.JWTAuthMiddleware(), userApi.UpdatePassword)
 	}
 	mainCollectionGroup := route.Group("/v1/collection/main", jwtApi.JWTAuthMiddleware())
