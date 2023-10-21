@@ -18,7 +18,7 @@ func (ua *UserApi) UserRegister(c *gin.Context) {
 	)
 	// 获取用户信息
 	if err := c.ShouldBindJSON(&u); err == nil {
-		response.FailWithMessage("账号已存在", c)
+		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	// 注册

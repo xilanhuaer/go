@@ -18,7 +18,7 @@ func (u *UserService) Register(user *entity.User) (err error) {
 		isValid bool
 	)
 	// 使用账号查询用户是否存在
-	if err = global.DB.Where("account=?", user.Account).First(&user).Error; err != nil {
+	if err = global.DB.Where("account=?", user.Account).First(&user).Error; err == nil {
 		return err
 	}
 	// 验证账号、密码、邮箱、电话号码格式
