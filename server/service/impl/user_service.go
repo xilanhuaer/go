@@ -37,6 +37,7 @@ func (u *UserService) Register(user *entity.User) (err error) {
 		if err != nil {
 			return err
 		}
+		return nil
 	}
 	return fmt.Errorf("用户已存在")
 }
