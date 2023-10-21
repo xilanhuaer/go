@@ -3,6 +3,7 @@ package controller
 import (
 	"interface/global"
 	"interface/model/common/response"
+	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -31,6 +32,7 @@ func (j *JWTAuthMiddlewareApi) JWTAuthMiddleware() func(c *gin.Context) {
 			c.Abort()
 			return
 		}
+		log.Println(mc.UserId)
 		c.Set("userId", mc.UserId)
 		c.Set("username", mc.UserName)
 		c.Next()
