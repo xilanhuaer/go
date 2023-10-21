@@ -17,7 +17,7 @@ func (ua *UserApi) UserRegister(c *gin.Context) {
 		u entity.User
 	)
 	// 获取用户信息
-	if err := c.ShouldBindJSON(&u); err == nil {
+	if err := c.ShouldBindJSON(&u); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
