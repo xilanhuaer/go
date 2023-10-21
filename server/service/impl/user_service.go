@@ -68,3 +68,41 @@ func (us *UserService) Login(user entity.User) (userinfo entity.UserInfo, err er
 	}
 	return userinfo, nil
 }
+
+// 查看用户信息
+func (us *UserService) FindUserInfo(id string) (userinfo entity.UserInfo, err error) {
+	var (
+		user entity.User
+	)
+	if err = global.DB.Where("id=?", id).First(&user).Error; err != nil {
+		return userinfo, err
+	}
+	userinfo = entity.UserInfo{
+		Id:      user.Id,
+		Account: user.Account,
+		Name:    user.Name,
+		Email:   user.Email,
+		Phone:   user.Phone,
+	}
+	return userinfo, nil
+}
+
+// 修改密码
+func (us *UserService) UpdatePassword(id string, editPassword entity.EditPassword) (err error) {
+	var (
+		userinfo entity.User
+	)
+	if err = global.DB.Where("id=?", id).First(&userinfo).Error; err != nil {
+		return err
+	}
+	if userinfo.Password != utils.SHA256V(editPassword.OldPassword) {
+		return fmt.Errorf("密码错误")
+	}
+	if !utils.CheckPassword(editPassword.NewPassword) {
+		return fmt.Errorf("密码格式错误")
+	}
+	if err = global.DB.Model(&userinfo).Update("password", utils.SHA256V(editPassword.NewPassword)).Error; err != nil {
+		return err
+	}
+	return nil
+}

@@ -48,3 +48,31 @@ func (ua *UserApi) UserLogin(c *gin.Context) {
 	}
 	response.OKWithData(userinfo, c)
 }
+
+// 查看用户信息
+func (ua *UserApi) UserInfo(c *gin.Context) {
+	id := c.GetString("userId")
+	userinfo, err := userService.FindUserInfo(id)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OKWithData(userinfo, c)
+}
+
+// 修改密码
+func (ua *UserApi) UpdatePassword(c *gin.Context) {
+	var (
+		editPassword entity.EditPassword
+		userId       = c.GetString("userId")
+	)
+	if err := c.ShouldBindJSON(&editPassword); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := userService.UpdatePassword(userId, editPassword); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OKWithMessage("修改成功", c)
+}
