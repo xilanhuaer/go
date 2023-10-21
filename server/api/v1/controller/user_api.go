@@ -52,7 +52,7 @@ func (ua *UserApi) UserLogin(c *gin.Context) {
 
 // 查看用户信息
 func (ua *UserApi) UserInfo(c *gin.Context) {
-	id := c.GetString("userId")
+	id := c.MustGet("userId").(string)
 	log.Println(id)
 	userinfo, err := userService.FindUserInfo(id)
 	if err != nil {
