@@ -14,40 +14,40 @@ func Register(route *gin.Engine) {
 		userGroup.POST("/register", userApi.UserRegister)
 		userGroup.POST("/login", userApi.UserLogin)
 	}
-	mainCollectionGroup := route.Group("/v1/collection/main")
+	mainCollectionGroup := route.Group("/v1/collection/main", jwtApi.JWTAuthMiddleware())
 	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
 	{
-		mainCollectionGroup.POST("/", jwtApi.JWTAuthMiddleware(), mainCollectionApi.CreateMainCollection)
-		mainCollectionGroup.GET("/", jwtApi.JWTAuthMiddleware(), mainCollectionApi.FindMainCollections)
-		mainCollectionGroup.GET("/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.FindMainCollection)
-		mainCollectionGroup.PUT("/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.UpdateMainCollection)
-		mainCollectionGroup.PUT("/enable/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.CheckMainCollectionEnable)
-		mainCollectionGroup.DELETE("/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.DeleteMainCollection)
+		mainCollectionGroup.POST("/", mainCollectionApi.CreateMainCollection)
+		mainCollectionGroup.GET("/", mainCollectionApi.FindMainCollections)
+		mainCollectionGroup.GET("/:id", mainCollectionApi.FindMainCollection)
+		mainCollectionGroup.PUT("/:id", mainCollectionApi.UpdateMainCollection)
+		mainCollectionGroup.PUT("/enable/:id", mainCollectionApi.CheckMainCollectionEnable)
+		mainCollectionGroup.DELETE("/:id", mainCollectionApi.DeleteMainCollection)
 	}
-	subCollectionGroup := route.Group("/v1/collection/sub")
+	subCollectionGroup := route.Group("/v1/collection/sub", jwtApi.JWTAuthMiddleware())
 	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionApi
 
 	{
-		subCollectionGroup.POST("/", jwtApi.JWTAuthMiddleware(), subCollectionApi.CreateSubCollection)
-		subCollectionGroup.GET("/", jwtApi.JWTAuthMiddleware(), subCollectionApi.FindSubCollections)
-		subCollectionGroup.GET("/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.FindSubCollection)
-		subCollectionGroup.PUT("/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.UpdateSubCollection)
-		subCollectionGroup.PUT("/enable/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.CheckSubCollectionEnable)
-		subCollectionGroup.DELETE("/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.DeleteSubCollection)
+		subCollectionGroup.POST("/", subCollectionApi.CreateSubCollection)
+		subCollectionGroup.GET("/", subCollectionApi.FindSubCollections)
+		subCollectionGroup.GET("/:id", subCollectionApi.FindSubCollection)
+		subCollectionGroup.PUT("/:id", subCollectionApi.UpdateSubCollection)
+		subCollectionGroup.PUT("/enable/:id", subCollectionApi.CheckSubCollectionEnable)
+		subCollectionGroup.DELETE("/:id", subCollectionApi.DeleteSubCollection)
 	}
-	interfaceGroup := route.Group("/v1/interface")
+	interfaceGroup := route.Group("/v1/interface", jwtApi.JWTAuthMiddleware())
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
-		interfaceGroup.POST("/", jwtApi.JWTAuthMiddleware(), interfaceApi.CreateInterface)
-		interfaceGroup.GET("/", jwtApi.JWTAuthMiddleware(), interfaceApi.FindInterfaces)
-		interfaceGroup.GET("/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.FindInterface)
-		interfaceGroup.PUT("/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.UpdateInterface)
-		interfaceGroup.PUT("/enable/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.CheckInterfaceEnable)
-		interfaceGroup.DELETE("/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.DeleteInterface)
+		interfaceGroup.POST("/", interfaceApi.CreateInterface)
+		interfaceGroup.GET("/", interfaceApi.FindInterfaces)
+		interfaceGroup.GET("/:id", interfaceApi.FindInterface)
+		interfaceGroup.PUT("/:id", interfaceApi.UpdateInterface)
+		interfaceGroup.PUT("/enable/:id", interfaceApi.CheckInterfaceEnable)
+		interfaceGroup.DELETE("/:id", interfaceApi.DeleteInterface)
 	}
-	interfaceImplGroup := route.Group("/v1/interface/impl")
+	interfaceImplGroup := route.Group("/v1/interface/impl", jwtApi.JWTAuthMiddleware())
 	interfaceImplApi := api.ApiGroupApp.ControllerApiGroup.InterfaceImplApi
 	{
-		interfaceImplGroup.POST("/", jwtApi.JWTAuthMiddleware(), interfaceImplApi.CreateImpl)
+		interfaceImplGroup.POST("/", interfaceImplApi.CreateImpl)
 	}
 }
