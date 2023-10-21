@@ -8,40 +8,46 @@ import (
 
 func Register(route *gin.Engine) {
 	jwtApi := api.ApiGroupApp.ControllerApiGroup.JWTAuthMiddlewareApi
+	userGroup := route.Group("/v1/user")
+	userApi := api.ApiGroupApp.ControllerApiGroup.UserApi
+	{
+		userGroup.POST("/register", userApi.UserRegister)
+		userGroup.POST("/login", userApi.UserLogin)
+	}
 	mainCollectionGroup := route.Group("/v1/collection/main")
 	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
 	{
-		mainCollectionGroup.POST("/", mainCollectionApi.CreateMainCollection)
-		mainCollectionGroup.GET("/", mainCollectionApi.FindMainCollections)
-		mainCollectionGroup.GET("/:id", mainCollectionApi.FindMainCollection)
-		mainCollectionGroup.PUT("/:id", mainCollectionApi.UpdateMainCollection)
-		mainCollectionGroup.PUT("/enable/:id", mainCollectionApi.CheckMainCollectionEnable)
-		mainCollectionGroup.DELETE("/:id", mainCollectionApi.DeleteMainCollection)
+		mainCollectionGroup.POST("/", jwtApi.JWTAuthMiddleware(), mainCollectionApi.CreateMainCollection)
+		mainCollectionGroup.GET("/", jwtApi.JWTAuthMiddleware(), mainCollectionApi.FindMainCollections)
+		mainCollectionGroup.GET("/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.FindMainCollection)
+		mainCollectionGroup.PUT("/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.UpdateMainCollection)
+		mainCollectionGroup.PUT("/enable/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.CheckMainCollectionEnable)
+		mainCollectionGroup.DELETE("/:id", jwtApi.JWTAuthMiddleware(), mainCollectionApi.DeleteMainCollection)
 	}
 	subCollectionGroup := route.Group("/v1/collection/sub")
 	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionApi
 
 	{
-		subCollectionGroup.POST("/", subCollectionApi.CreateSubCollection)
-		subCollectionGroup.GET("/", subCollectionApi.FindSubCollections)
-		subCollectionGroup.GET("/:id", subCollectionApi.FindSubCollection)
-		subCollectionGroup.PUT("/:id", subCollectionApi.UpdateSubCollection)
-		subCollectionGroup.PUT("/enable/:id", subCollectionApi.CheckSubCollectionEnable)
-		subCollectionGroup.DELETE("/:id", subCollectionApi.DeleteSubCollection)
+		subCollectionGroup.POST("/", jwtApi.JWTAuthMiddleware(), subCollectionApi.CreateSubCollection)
+		subCollectionGroup.GET("/", jwtApi.JWTAuthMiddleware(), subCollectionApi.FindSubCollections)
+		subCollectionGroup.GET("/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.FindSubCollection)
+		subCollectionGroup.PUT("/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.UpdateSubCollection)
+		subCollectionGroup.PUT("/enable/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.CheckSubCollectionEnable)
+		subCollectionGroup.DELETE("/:id", jwtApi.JWTAuthMiddleware(), subCollectionApi.DeleteSubCollection)
 	}
 	interfaceGroup := route.Group("/v1/interface")
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
-		interfaceGroup.POST("/", interfaceApi.CreateInterface)
+		interfaceGroup.POST("/", jwtApi.JWTAuthMiddleware(), interfaceApi.CreateInterface)
 		interfaceGroup.GET("/", jwtApi.JWTAuthMiddleware(), interfaceApi.FindInterfaces)
-		interfaceGroup.GET("/:id", interfaceApi.FindInterface)
-		interfaceGroup.PUT("/:id", interfaceApi.UpdateInterface)
-		interfaceGroup.PUT("/enable/:id", interfaceApi.CheckInterfaceEnable)
-		interfaceGroup.DELETE("/:id", interfaceApi.DeleteInterface)
+		interfaceGroup.GET("/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.FindInterface)
+		interfaceGroup.PUT("/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.UpdateInterface)
+		interfaceGroup.PUT("/enable/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.CheckInterfaceEnable)
+		interfaceGroup.DELETE("/:id", jwtApi.JWTAuthMiddleware(), interfaceApi.DeleteInterface)
 	}
 	interfaceImplGroup := route.Group("/v1/interface/impl")
 	interfaceImplApi := api.ApiGroupApp.ControllerApiGroup.InterfaceImplApi
 	{
-		interfaceImplGroup.POST("/", interfaceImplApi.CreateImpl)
+		interfaceImplGroup.POST("/", jwtApi.JWTAuthMiddleware(), interfaceImplApi.CreateImpl)
 	}
 }

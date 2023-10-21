@@ -9,6 +9,7 @@ type ApiGroup struct {
 	MainSubApi
 	InterfaceImplApi
 	JWTAuthMiddlewareApi
+	UserApi
 }
 
 var (
@@ -17,4 +18,5 @@ var (
 	interfaceService      = service.ServiceGroupApp.ImplServiceGroup.InterfaceService
 	mainSubService        = service.ServiceGroupApp.ImplServiceGroup.MainSubService
 	interfaceImplService  = service.ServiceGroupApp.ImplServiceGroup.InterfaceImplService
+	userService           = service.ServiceGroupApp.ImplServiceGroup.UserService
 )
