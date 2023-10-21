@@ -7,6 +7,7 @@ import (
 )
 
 func Register(route *gin.Engine) {
+	jwtApi := api.ApiGroupApp.ControllerApiGroup.JWTAuthMiddlewareApi
 	mainCollectionGroup := route.Group("/v1/collection/main")
 	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
 	{
@@ -32,7 +33,7 @@ func Register(route *gin.Engine) {
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
 		interfaceGroup.POST("/", interfaceApi.CreateInterface)
-		interfaceGroup.GET("/", interfaceApi.FindInterfaces)
+		interfaceGroup.GET("/", jwtApi.JWTAuthMiddleware(), interfaceApi.FindInterfaces)
 		interfaceGroup.GET("/:id", interfaceApi.FindInterface)
 		interfaceGroup.PUT("/:id", interfaceApi.UpdateInterface)
 		interfaceGroup.PUT("/enable/:id", interfaceApi.CheckInterfaceEnable)

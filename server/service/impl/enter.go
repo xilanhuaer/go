@@ -6,4 +6,5 @@ type ServiceGroup struct {
 	InterfaceService
 	MainSubService
 	InterfaceImplService
+	UserService
 }

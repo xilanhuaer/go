@@ -8,6 +8,7 @@ type ApiGroup struct {
 	InterfaceApi
 	MainSubApi
 	InterfaceImplApi
+	JWTAuthMiddlewareApi
 }
 
 var (
