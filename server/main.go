@@ -9,8 +9,6 @@ import (
 
 func main() {
 	global.Connection("./config/config.yaml")
-	// 跨域
-	Cors()
 	r := gin.Default()
 	router.Register(r)
 	if global.DB != nil {
@@ -18,8 +16,4 @@ func main() {
 		defer db.Close()
 	}
 	r.Run("0.0.0.0:80")
-}
-
-func Cors() {
-	panic("unimplemented")
 }
