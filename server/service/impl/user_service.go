@@ -25,6 +25,7 @@ func (u *UserService) Register(user *entity.User) (err error) {
 		if !isValid {
 			return fmt.Errorf("密码格式错误")
 		}
+		user.Password = utils.SHA256V(user.Password)
 		isValid = utils.CheckEmail(user.Email)
 		if !isValid {
 			return fmt.Errorf("邮箱格式错误")
