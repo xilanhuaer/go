@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"interface/utils"
 	"log"
-	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,13 +11,7 @@ import (
 )
 
 var (
-	DB         *gorm.DB
-	UserSecret = []byte("254%^FuCo610N!3N")
-)
-
-const (
-	TokenExpireDuration = time.Hour * 24 * 30
-	Host                = "http://111.230.89.67:82"
+	DB *gorm.DB
 )
 
 func Connection(path string) {
