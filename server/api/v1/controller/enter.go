@@ -10,6 +10,7 @@ type ApiGroup struct {
 	InterfaceImplApi
 	JWTAuthMiddlewareApi
 	UserApi
+	RequestController
 }
 
 var (

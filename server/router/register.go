@@ -52,4 +52,9 @@ func Register(route *gin.Engine) {
 	{
 		interfaceImplGroup.POST("/", interfaceImplApi.CreateImpl)
 	}
+	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
+	requestGroup := route.Group("/v1/request")
+	{
+		requestGroup.GET("/", requestController.TestRequest)
+	}
 }

@@ -18,6 +18,7 @@ var (
 
 const (
 	TokenExpireDuration = time.Hour * 24 * 30
+	Host                = "http://111.230.89.67:82/"
 )
 
 func Connection(path string) {
