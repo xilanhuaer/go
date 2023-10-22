@@ -12,10 +12,7 @@ type RequestController struct {
 }
 
 func (rc *RequestController) TestRequest(c *gin.Context) {
-	jsonData := map[string]interface{}{
-		"account":  "xilanhua",
-		"password": "xilanhua666",
-	}
+	jsonData := `{"account":"xilanhua","password":"xilanhua666"}"}`
 	postRequest := entity.NewRequest("POST", global.HOST+"/api/v1/user/login")
 	postRequest.SetJsonBody(jsonData)
 	postRequest.SetHeader("Content-Type", "application/json")
