@@ -8,11 +8,12 @@ import (
 	"net/url"
 )
 
-func NewRequest(path string) {
+func NewRequest(path string, params map[string]interface{}) {
 	apiUrl := global.Host + path
 	data := url.Values{}
-	data.Set("page", "1")
-	data.Set("page_size", "10")
+	for k, v := range params {
+		data.Set(k, v.(string))
+	}
 	u, err := url.ParseRequestURI(apiUrl)
 	if err != nil {
 		fmt.Printf("parse url requestUrl failed, err:%v\n", err)
