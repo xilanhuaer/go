@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-func NewRequest(path string, params map[string]interface{}) {
+func NewRequest(path string, params map[string]interface{}, headers map[string]string) {
 	apiUrl := global.Host + path
 	data := url.Values{}
 	for k, v := range params {
