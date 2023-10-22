@@ -13,7 +13,7 @@ type RequestController struct {
 
 func (rc *RequestController) TestRequest(c *gin.Context) {
 	jsonData := `{"account":"xilanhua","password":"xilanhua666"}"}`
-	postRequest := entity.NewRequest("POST", global.HOST+"/api/v1/user/login")
+	postRequest := entity.NewRequest("POST", global.HOST+"/v1/user/login")
 	postRequest.SetJsonBody(jsonData)
 	postRequest.SetHeader("Content-Type", "application/json")
 	resp, err := postRequest.Send()
