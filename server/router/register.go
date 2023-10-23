@@ -2,7 +2,6 @@ package router
 
 import (
 	"interface/api"
-	"interface/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -58,5 +57,4 @@ func Register(route *gin.Engine) {
 	{
 		requestGroup.GET("/", requestController.TestRequest)
 	}
-	route.Use(middlewares.Cors())
 }
