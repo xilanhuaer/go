@@ -9,7 +9,8 @@ import (
 
 func Register(route *gin.Engine) {
 	jwtApi := api.ApiGroupApp.ControllerApiGroup.JWTAuthMiddlewareApi
-	userGroup := route.Group("/v1/user").Use(cors.Default())
+	userGroup := route.Group("/v1/user")
+	userGroup.Use(cors.Default())
 	userApi := api.ApiGroupApp.ControllerApiGroup.UserApi
 	{
 		userGroup.POST("/register", userApi.UserRegister)
@@ -17,7 +18,8 @@ func Register(route *gin.Engine) {
 		userGroup.GET("/info", jwtApi.JWTAuthMiddleware(), userApi.UserInfo)
 		userGroup.POST("/edit_password", jwtApi.JWTAuthMiddleware(), userApi.UpdatePassword)
 	}
-	mainCollectionGroup := route.Group("/v1/collection/main", jwtApi.JWTAuthMiddleware()).Use(cors.Default())
+	mainCollectionGroup := route.Group("/v1/collection/main", jwtApi.JWTAuthMiddleware())
+	mainCollectionGroup.Use(cors.Default())
 	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
 	{
 		mainCollectionGroup.POST("/", mainCollectionApi.CreateMainCollection)
@@ -27,7 +29,8 @@ func Register(route *gin.Engine) {
 		mainCollectionGroup.PUT("/enable/:id", mainCollectionApi.CheckMainCollectionEnable)
 		mainCollectionGroup.DELETE("/:id", mainCollectionApi.DeleteMainCollection)
 	}
-	subCollectionGroup := route.Group("/v1/collection/sub", jwtApi.JWTAuthMiddleware()).Use(cors.Default())
+	subCollectionGroup := route.Group("/v1/collection/sub", jwtApi.JWTAuthMiddleware())
+	subCollectionGroup.Use(cors.Default())
 	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionApi
 
 	{
@@ -38,7 +41,8 @@ func Register(route *gin.Engine) {
 		subCollectionGroup.PUT("/enable/:id", subCollectionApi.CheckSubCollectionEnable)
 		subCollectionGroup.DELETE("/:id", subCollectionApi.DeleteSubCollection)
 	}
-	interfaceGroup := route.Group("/v1/interface", jwtApi.JWTAuthMiddleware()).Use(cors.Default())
+	interfaceGroup := route.Group("/v1/interface", jwtApi.JWTAuthMiddleware())
+	interfaceGroup.Use(cors.Default())
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
 		interfaceGroup.POST("/", interfaceApi.CreateInterface)
@@ -48,14 +52,16 @@ func Register(route *gin.Engine) {
 		interfaceGroup.PUT("/enable/:id", interfaceApi.CheckInterfaceEnable)
 		interfaceGroup.DELETE("/:id", interfaceApi.DeleteInterface)
 	}
-	interfaceImplGroup := route.Group("/v1/interface/impl", jwtApi.JWTAuthMiddleware()).Use(cors.Default())
+	interfaceImplGroup := route.Group("/v1/interface/impl", jwtApi.JWTAuthMiddleware())
+	interfaceImplGroup.Use(cors.Default())
 	interfaceImplApi := api.ApiGroupApp.ControllerApiGroup.InterfaceImplApi
 	{
 		interfaceImplGroup.POST("/", interfaceImplApi.CreateImpl)
 	}
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
 	requestGroup := route.Group("/v1/request")
+	requestGroup.Use(cors.Default())
 	{
-		requestGroup.GET("/", requestController.TestRequest).Use(cors.Default())
+		requestGroup.GET("/", requestController.TestRequest)
 	}
 }
