@@ -17,5 +17,5 @@ func main() {
 		db, _ := global.DB.DB()
 		defer db.Close()
 	}
-	r.Run("0.0.0.0:80")
+	r.Run(":80")
 }
