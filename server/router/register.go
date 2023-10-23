@@ -16,6 +16,7 @@ func Register(route *gin.Engine) {
 		userGroup.POST("/register", userApi.UserRegister)
 		userGroup.POST("/login", userApi.UserLogin)
 		userGroup.GET("/info", jwtApi.JWTAuthMiddleware(), userApi.UserInfo)
+		userGroup.GET("/info/:id", jwtApi.JWTAuthMiddleware(), userApi.UserInfo)
 		userGroup.POST("/edit_password", jwtApi.JWTAuthMiddleware(), userApi.UpdatePassword)
 	}
 	mainCollectionGroup := route.Group("/v1/collection/main", jwtApi.JWTAuthMiddleware())
@@ -23,7 +24,7 @@ func Register(route *gin.Engine) {
 	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
 	{
 		mainCollectionGroup.POST("", mainCollectionApi.CreateMainCollection)
-		mainCollectionGroup.GET("", mainCollectionApi.FindMainCollections)
+		mainCollectionGroup.GET("/", mainCollectionApi.FindMainCollections)
 		mainCollectionGroup.GET("/:id", mainCollectionApi.FindMainCollection)
 		mainCollectionGroup.PUT("/:id", mainCollectionApi.UpdateMainCollection)
 		mainCollectionGroup.PUT("/enable/:id", mainCollectionApi.CheckMainCollectionEnable)
@@ -35,7 +36,7 @@ func Register(route *gin.Engine) {
 
 	{
 		subCollectionGroup.POST("", subCollectionApi.CreateSubCollection)
-		subCollectionGroup.GET("", subCollectionApi.FindSubCollections)
+		subCollectionGroup.GET("/", subCollectionApi.FindSubCollections)
 		subCollectionGroup.GET("/:id", subCollectionApi.FindSubCollection)
 		subCollectionGroup.PUT("/:id", subCollectionApi.UpdateSubCollection)
 		subCollectionGroup.PUT("/enable/:id", subCollectionApi.CheckSubCollectionEnable)
@@ -46,7 +47,7 @@ func Register(route *gin.Engine) {
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
 		interfaceGroup.POST("", interfaceApi.CreateInterface)
-		interfaceGroup.GET("", interfaceApi.FindInterfaces)
+		interfaceGroup.GET("/", interfaceApi.FindInterfaces)
 		interfaceGroup.GET("/:id", interfaceApi.FindInterface)
 		interfaceGroup.PUT("/:id", interfaceApi.UpdateInterface)
 		interfaceGroup.PUT("/enable/:id", interfaceApi.CheckInterfaceEnable)
@@ -62,6 +63,6 @@ func Register(route *gin.Engine) {
 	requestGroup := route.Group("/v1/request")
 	requestGroup.Use(cors.Default())
 	{
-		requestGroup.GET("", requestController.TestRequest)
+		requestGroup.GET("/", requestController.TestRequest)
 	}
 }
