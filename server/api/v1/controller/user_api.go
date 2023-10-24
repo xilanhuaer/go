@@ -20,6 +20,7 @@ func (ua *UserApi) UserRegister(c *gin.Context) {
 	)
 	if err := c.ShouldBindJSON(&map[string]interface{}{"code": &code}); err != nil || code != "register_code" {
 		response.FailWithMessage("邀请码错误", c)
+		return
 	}
 	// 获取用户信息
 	if err := c.ShouldBindJSON(&u); err != nil {
