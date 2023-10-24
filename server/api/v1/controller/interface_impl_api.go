@@ -13,10 +13,13 @@ type InterfaceImplApi struct {
 
 func (iia *InterfaceImplApi) CreateImpl(c *gin.Context) {
 	var ii entity.InterfaceImpl
+	name := c.MustGet("userName").(string)
 	if err := c.ShouldBindJSON(&ii); err != nil {
 		response.FailWithDetail(nil, err.Error(), c)
 		return
 	}
+	ii.Creator = name
+	ii.Updator = name
 	if err := interfaceImplService.CreateImpl(ii); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -64,11 +67,13 @@ func (iia *InterfaceImplApi) FindInterfaceImplById(c *gin.Context) {
 func (iia *InterfaceImplApi) UpdateInterfaceImplById(c *gin.Context) {
 	// 获取id
 	id := c.Param("id")
+	name := c.MustGet("userName").(string)
 	var ii entity.InterfaceImpl
 	if err := c.ShouldBindJSON(&ii); err != nil {
 		response.FailWithDetail(nil, err.Error(), c)
 		return
 	}
+	ii.Updator = name
 	if err := interfaceImplService.UpdateInterfaceImplById(id, ii); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -80,7 +85,8 @@ func (iia *InterfaceImplApi) UpdateInterfaceImplById(c *gin.Context) {
 func (iia *InterfaceImplApi) DeleteInterfaceImplById(c *gin.Context) {
 	// 获取id
 	id := c.Param("id")
-	if err := interfaceImplService.DeleteInterfaceImplById(id); err != nil {
+	name := c.MustGet("userName").(string)
+	if err := interfaceImplService.DeleteInterfaceImplById(id, name); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -90,15 +96,17 @@ func (iia *InterfaceImplApi) DeleteInterfaceImplById(c *gin.Context) {
 // 根据id切换接口实现状态
 func (iia *InterfaceImplApi) SwitchInterfaceImplById(c *gin.Context) {
 	var (
-		ii entity.InterfaceImpl
-		id string
+		ii   entity.InterfaceImpl
+		id   string
+		name = c.MustGet("userName").(string)
 	)
 	id = c.Param("id")
 	if err := c.ShouldBindJSON(&ii); err != nil {
 		response.FailWithDetail(nil, err.Error(), c)
 		return
 	}
-	if err := interfaceImplService.SwitchInterfaceImplById(id, ii.Enabled); err != nil {
+	ii.Updator = name
+	if err := interfaceImplService.SwitchInterfaceImplById(id, ii); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

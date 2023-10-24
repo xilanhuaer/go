@@ -69,33 +69,25 @@ func (iis *InterfaceImplService) FindInterfaceImplById(id string) (entity.Interf
 }
 
 // 根据id更新接口实现
-//
-//	error
+// params id, entity.InterfaceImpl
+// return error
 func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.InterfaceImpl) error {
-	var (
-		interface_impl entity.InterfaceImpl
-	)
-	err := global.DB.Model(&interface_impl).Where("id = ?", id).Updates(ii).Error
+	err := global.DB.Where("id = ?", id).Updates(&ii).Error
 	return err
 }
 
 // 根据id删除接口实现
+// params id name
 // return error
-func (iis *InterfaceImplService) DeleteInterfaceImplById(id string) error {
-	var (
-		interface_impl entity.InterfaceImpl
-	)
-	err := global.DB.Where("id = ?", id).Delete(&interface_impl).Error
+func (iis *InterfaceImplService) DeleteInterfaceImplById(id, name string) error {
+	err := global.DB.Raw("update interface_impl set deleted_at = now(),updator = ? where id = ?", name, id).Error
 	return err
 }
 
 // 根据ID切换接口实现的状态
-// params id, enabled
+// params id, entity.InterfaceImpl
 // return error
-func (iis *InterfaceImplService) SwitchInterfaceImplById(id string, enabled string) error {
-	var (
-		interface_impl entity.InterfaceImpl
-	)
-	err := global.DB.Model(&interface_impl).Where("id = ?", id).Update("enabled", enabled).Error
+func (iis *InterfaceImplService) SwitchInterfaceImplById(id string, ii entity.InterfaceImpl) error {
+	err := global.DB.Raw("update interface_impl set enabled = ? ,updator = ? where id = ?", ii.Enabled, ii.Updator, id).Error
 	return err
 }
