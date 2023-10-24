@@ -37,7 +37,7 @@ func Register(route *gin.Engine) {
 		subCollectionGroup.PUT("/enable/:id", subCollectionApi.CheckSubCollectionEnable)
 		subCollectionGroup.DELETE("/:id", subCollectionApi.DeleteSubCollection)
 	}
-	interfaceGroup := route.Group("/v1/interface", jwtApi.JWTAuthMiddleware())
+	interfaceGroup := route.Group("/v1/interface")
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
 		interfaceGroup.POST("", interfaceApi.CreateInterface)
