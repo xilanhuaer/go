@@ -19,7 +19,7 @@ func Register(route *gin.Engine) {
 	mainCollectionGroup := route.Group("/v1/collection/main", jwtApi.JWTAuthMiddleware())
 	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
 	{
-		mainCollectionGroup.POST("/", mainCollectionApi.CreateMainCollection)
+		mainCollectionGroup.POST("", mainCollectionApi.CreateMainCollection)
 		mainCollectionGroup.GET("/", mainCollectionApi.FindMainCollections)
 		mainCollectionGroup.GET("/:id", mainCollectionApi.FindMainCollection)
 		mainCollectionGroup.PUT("/:id", mainCollectionApi.UpdateMainCollection)
@@ -30,7 +30,7 @@ func Register(route *gin.Engine) {
 	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionApi
 
 	{
-		subCollectionGroup.POST("/", subCollectionApi.CreateSubCollection)
+		subCollectionGroup.POST("", subCollectionApi.CreateSubCollection)
 		subCollectionGroup.GET("/", subCollectionApi.FindSubCollections)
 		subCollectionGroup.GET("/:id", subCollectionApi.FindSubCollection)
 		subCollectionGroup.PUT("/:id", subCollectionApi.UpdateSubCollection)
@@ -40,7 +40,7 @@ func Register(route *gin.Engine) {
 	interfaceGroup := route.Group("/v1/interface", jwtApi.JWTAuthMiddleware())
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
-		interfaceGroup.POST("/", interfaceApi.CreateInterface)
+		interfaceGroup.POST("", interfaceApi.CreateInterface)
 		interfaceGroup.GET("/", interfaceApi.FindInterfaces)
 		interfaceGroup.GET("/:id", interfaceApi.FindInterface)
 		interfaceGroup.PUT("/:id", interfaceApi.UpdateInterface)
@@ -50,7 +50,7 @@ func Register(route *gin.Engine) {
 	interfaceImplGroup := route.Group("/v1/interface/impl", jwtApi.JWTAuthMiddleware())
 	interfaceImplApi := api.ApiGroupApp.ControllerApiGroup.InterfaceImplApi
 	{
-		interfaceImplGroup.POST("/", interfaceImplApi.CreateImpl)
+		interfaceImplGroup.POST("", interfaceImplApi.CreateImpl)
 	}
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
 	requestGroup := route.Group("/v1/request")
