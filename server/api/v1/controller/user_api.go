@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"interface/model/common/response"
 	"interface/model/entity"
 	"log"
@@ -16,25 +15,31 @@ type UserApi struct {
 // 用户注册
 func (ua *UserApi) UserRegister(c *gin.Context) {
 	var (
-		u    entity.User
-		data map[string]interface{}
-	)
-	b, _ := c.GetRawData()
-	_ = json.Unmarshal(b, &data)
-	if value, ok := data["code"]; ok {
-		if value != "register_code" {
-			response.FailWithMessage("验证码错误", c)
-			return
+		u            entity.User
+		registerData struct {
+			Account  string
+			Password string
+			Code     string
+			Name     string
+			Email    string
+			Phone    string
 		}
-	} else {
-		response.FailWithMessage("请输入验证码", c)
+	)
+	if err := c.ShouldBindJSON(&registerData); err != nil {
+		response.FailWithMessage("请求参数错误", c)
 		return
 	}
-
-	// 获取用户信息
-	if err := c.ShouldBindJSON(&u); err != nil {
-		response.FailWithMessage(err.Error(), c)
+	if registerData.Code != "register_code" {
+		response.FailWithMessage("邀请码错误", c)
 		return
+	}
+	{
+		u.Account = registerData.Account
+		u.Password = registerData.Password
+		u.Name = registerData.Name
+		u.Email = registerData.Email
+		u.Phone = registerData.Phone
+
 	}
 	// 注册
 	if err := userService.Register(&u); err != nil {
