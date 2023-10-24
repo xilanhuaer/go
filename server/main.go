@@ -25,7 +25,6 @@ func main() {
 		if method == "OPTIONS" {
 			ctx.AbortWithStatus(http.StatusNoContent)
 		}
-		log.Println(ctx.GetHeader("Access-Control-Allow-Origin"))
 		ctx.Next()
 	})
 	router.Register(r)
