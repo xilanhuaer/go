@@ -13,7 +13,7 @@ type InterfaceImplApi struct {
 
 func (iia *InterfaceImplApi) CreateImpl(c *gin.Context) {
 	var ii entity.InterfaceImpl
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	if err := c.ShouldBindJSON(&ii); err != nil {
 		response.FailWithDetail(nil, err.Error(), c)
 		return
@@ -67,7 +67,7 @@ func (iia *InterfaceImplApi) FindInterfaceImplById(c *gin.Context) {
 func (iia *InterfaceImplApi) UpdateInterfaceImplById(c *gin.Context) {
 	// 获取id
 	id := c.Param("id")
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	var ii entity.InterfaceImpl
 	if err := c.ShouldBindJSON(&ii); err != nil {
 		response.FailWithDetail(nil, err.Error(), c)
@@ -85,7 +85,7 @@ func (iia *InterfaceImplApi) UpdateInterfaceImplById(c *gin.Context) {
 func (iia *InterfaceImplApi) DeleteInterfaceImplById(c *gin.Context) {
 	// 获取id
 	id := c.Param("id")
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	if err := interfaceImplService.DeleteInterfaceImplById(id, name); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -98,7 +98,7 @@ func (iia *InterfaceImplApi) SwitchInterfaceImplById(c *gin.Context) {
 	var (
 		ii   entity.InterfaceImpl
 		id   string
-		name = c.MustGet("userName").(string)
+		name = c.MustGet("username").(string)
 	)
 	id = c.Param("id")
 	if err := c.ShouldBindJSON(&ii); err != nil {

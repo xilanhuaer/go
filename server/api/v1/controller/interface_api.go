@@ -13,7 +13,7 @@ type InterfaceApi struct {
 
 func (i *InterfaceApi) CreateInterface(c *gin.Context) {
 	var e entity.Interface
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	err := c.ShouldBindJSON(&e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -62,7 +62,7 @@ func (i *InterfaceApi) FindInterface(c *gin.Context) {
 }
 func (i *InterfaceApi) UpdateInterface(c *gin.Context) {
 	id := c.Param("id")
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	var e entity.Interface
 	e.Updator = name
 	if err := c.ShouldBindJSON(&e); err != nil {
@@ -79,7 +79,7 @@ func (i *InterfaceApi) UpdateInterface(c *gin.Context) {
 }
 func (i *InterfaceApi) CheckInterfaceEnable(c *gin.Context) {
 	id := c.Param("id")
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	var e entity.Interface
 	if err := c.ShouldBindJSON(&e); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -95,7 +95,7 @@ func (i *InterfaceApi) CheckInterfaceEnable(c *gin.Context) {
 }
 func (i *InterfaceApi) DeleteInterface(c *gin.Context) {
 	id := c.Param("id")
-	name := c.MustGet("userName").(string)
+	name := c.MustGet("username").(string)
 	if err := interfaceService.DeleteInterface(id, name); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
