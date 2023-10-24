@@ -17,25 +17,20 @@ type UserApi struct {
 func (ua *UserApi) UserRegister(c *gin.Context) {
 	var (
 		u    entity.User
-		code string
-		flag bool
 		data map[string]interface{}
 	)
 	b, _ := c.GetRawData()
 	_ = json.Unmarshal(b, &data)
-	for key, value := range data {
-		if key == "code" {
-			flag = true
-			if value != "register_code" {
-				response.FailWithMessage("验证码错误", c)
-				return
-			}
+	if value, ok := data["code"]; ok {
+		if value != "register_code" {
+			response.FailWithMessage("验证码错误", c)
+			return
 		}
-	}
-	if flag != true {
-		response.FailWithMessage("缺少验证码", c)
+	} else {
+		response.FailWithMessage("请输入验证码", c)
 		return
 	}
+
 	// 获取用户信息
 	if err := c.ShouldBindJSON(&u); err != nil {
 		response.FailWithMessage(err.Error(), c)
