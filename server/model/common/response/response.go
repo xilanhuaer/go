@@ -18,10 +18,6 @@ const (
 )
 
 func Result(code int, data interface{}, message string, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*/*")
-	c.Header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
-	c.Header("Access-Control-Allow-Headers", "Content-Type")
-
 	c.JSON(http.StatusOK, Response{
 		Code:    code,
 		Data:    data,
