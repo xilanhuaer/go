@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"interface/model/common/response"
 	"interface/model/entity"
 	"log"
@@ -17,10 +18,22 @@ func (ua *UserApi) UserRegister(c *gin.Context) {
 	var (
 		u    entity.User
 		code string
+		flag bool
+		data map[string]interface{}
 	)
-	if err := c.ShouldBindJSON(&map[string]interface{}{"code": &code}); err != nil || code != "register_code" {
-		log.Println(code)
-		response.FailWithMessage("邀请码错误", c)
+	b, _ := c.GetRawData()
+	_ = json.Unmarshal(b, &data)
+	for key, value := range data {
+		if key == "code" {
+			flag = true
+			if value != "register_code" {
+				response.FailWithMessage("验证码错误", c)
+				return
+			}
+		}
+	}
+	if flag != true {
+		response.FailWithMessage("缺少验证码", c)
 		return
 	}
 	// 获取用户信息
