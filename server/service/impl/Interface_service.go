@@ -46,8 +46,8 @@ func (m *InterfaceService) FindInterface(id string) (entity.Interface, error) {
 func (m *InterfaceService) UpdateInterface(id string, i entity.Interface) error {
 	return global.DB.Where("id=?", id).Model(&entity.Interface{}).Updates(&i).Error
 }
-func (m *InterfaceService) CheckInterfaceEnable(id string, i entity.Interface) error {
-	return global.DB.Raw("update interface set enabled = ?, updator=? where id = ?", i.Enabled, i.Updator, id).Error
+func (m *InterfaceService) CheckInterfaceEnable(id, enabled, name string) error {
+	return global.DB.Raw("update interface set enabled = ?, updator=? where id = ?", enabled, name, id).Error
 }
 func (m *InterfaceService) DeleteInterface(id, name string) error {
 	return global.DB.Raw("update interface set deleted_at = now(), updator = ? where id = ?", name, id).Error

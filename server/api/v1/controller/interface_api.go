@@ -85,8 +85,7 @@ func (i *InterfaceApi) CheckInterfaceEnable(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	e.Updator = name
-	err := interfaceService.CheckInterfaceEnable(id, e)
+	err := interfaceService.CheckInterfaceEnable(id, e.Enabled, name)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
