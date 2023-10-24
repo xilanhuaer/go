@@ -97,3 +97,33 @@ func (ua *UserApi) UpdatePassword(c *gin.Context) {
 	}
 	response.OKWithMessage("修改成功", c)
 }
+
+// 个人中心
+func (ua *UserApi) UserCenter(c *gin.Context) {
+	var (
+		userId = c.MustGet("userId").(uint)
+	)
+	userinfo, err := userService.FindUserInfo(userId)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OKWithData(userinfo, c)
+}
+
+// 修改个人信息
+func (ua *UserApi) UpdateUserInfo(c *gin.Context) {
+	var (
+		userId = c.MustGet("userId").(uint)
+		u      entity.User
+	)
+	if err := c.ShouldBindJSON(&u); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := userService.UpdateUserInfo(userId, u); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OKWithMessage("修改成功", c)
+}

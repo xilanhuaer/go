@@ -106,3 +106,32 @@ func (us *UserService) UpdatePassword(id uint, editPassword entity.EditPassword)
 	}
 	return nil
 }
+
+// 修改用户信息
+func (us *UserService) UpdateUserInfo(id uint, editUserInfo entity.User) (err error) {
+	var (
+		userinfo entity.User
+	)
+	if err = global.DB.Where("id=?", id).First(&userinfo).Error; err != nil {
+		return err
+	}
+	if editUserInfo.Name != "" {
+		userinfo.Name = editUserInfo.Name
+	}
+	if editUserInfo.Email != "" {
+		if !utils.CheckEmail(editUserInfo.Email) {
+			return fmt.Errorf("邮箱格式错误")
+		}
+		userinfo.Email = editUserInfo.Email
+	}
+	if editUserInfo.Phone != "" {
+		if !utils.CheckPhone(editUserInfo.Phone) {
+			return fmt.Errorf("手机号格式错误")
+		}
+		userinfo.Phone = editUserInfo.Phone
+	}
+	if err = global.DB.Save(&userinfo).Error; err != nil {
+		return err
+	}
+	return nil
+}
