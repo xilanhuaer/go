@@ -19,6 +19,7 @@ func (ua *UserApi) UserRegister(c *gin.Context) {
 		code string
 	)
 	if err := c.ShouldBindJSON(&map[string]interface{}{"code": &code}); err != nil || code != "register_code" {
+		log.Println(code)
 		response.FailWithMessage("邀请码错误", c)
 		return
 	}
