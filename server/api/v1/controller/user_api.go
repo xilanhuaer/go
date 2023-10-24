@@ -15,8 +15,12 @@ type UserApi struct {
 // 用户注册
 func (ua *UserApi) UserRegister(c *gin.Context) {
 	var (
-		u entity.User
+		u    entity.User
+		code string
 	)
+	if err := c.ShouldBindJSON(&map[string]interface{}{"code": &code}); err != nil || code != "register_code" {
+		response.FailWithMessage("邀请码错误", c)
+	}
 	// 获取用户信息
 	if err := c.ShouldBindJSON(&u); err != nil {
 		response.FailWithMessage(err.Error(), c)
