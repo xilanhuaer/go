@@ -40,10 +40,8 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 	var (
 		interface_implements []entity.InterfaceImpl
 	)
-	log.Println(params)
 	query := global.DB.Model(&entity.InterfaceImpl{})
 	for key, field := range params {
-		log.Println(key, field)
 		if params[key] != "" {
 			if key == "name" || key == "interface_name" {
 				query.Where(fmt.Sprintf("%s like ?", key), "%"+field+"%")
