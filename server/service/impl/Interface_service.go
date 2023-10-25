@@ -44,7 +44,7 @@ func (m *InterfaceService) FindInterface(id string) (entity.Interface, error) {
 	return i, err
 }
 func (m *InterfaceService) UpdateInterface(id string, i entity.Interface) error {
-	return global.DB.Where("id=?", id).Model(&entity.Interface{}).Updates(&i).Error
+	return global.DB.Where("id=?", id).Model(&entity.Interface{}).Updates(&i).Update("updator", i.Updator).Error
 }
 func (m *InterfaceService) CheckInterfaceEnable(id, enabled, name string) error {
 	return global.DB.Raw("update interface set enabled = ?, updator=? where id = ?", enabled, name, id).Error

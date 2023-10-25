@@ -71,8 +71,8 @@ func (iis *InterfaceImplService) FindInterfaceImplById(id string) (entity.Interf
 // 根据id更新接口实现
 // params id, entity.InterfaceImpl
 // return error
-func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.InterfaceImpl) error {
-	err := global.DB.Where("id = ?", id).Updates(&ii).Error
+func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.InterfaceImpl, name string) error {
+	err := global.DB.Where("id = ?", id).Updates(&ii).Update("updator", name).Error
 	return err
 }
 

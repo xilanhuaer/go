@@ -73,8 +73,7 @@ func (iia *InterfaceImplApi) UpdateInterfaceImplById(c *gin.Context) {
 		response.FailWithDetail(nil, err.Error(), c)
 		return
 	}
-	ii.Updator = name
-	if err := interfaceImplService.UpdateInterfaceImplById(id, ii); err != nil {
+	if err := interfaceImplService.UpdateInterfaceImplById(id, ii, name); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
