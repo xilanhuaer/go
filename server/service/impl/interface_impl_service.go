@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"interface/global"
 	"interface/model/entity"
+	"log"
 )
 
 type InterfaceImplService struct {
@@ -42,13 +43,14 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 	query := global.DB.Model(&entity.InterfaceImpl{})
 	for key, field := range params {
 		if params[key] != "" {
-			if key != "name" {
-				query.Where(fmt.Sprintf("%s=?", key), field)
+			if key == "name" || key == "interface_name" {
+				query.Where(fmt.Sprintf("%s like ?", key), "%"+field+"%")
 			} else {
-				query.Where("name like ?", "%"+field+"%")
+				query.Where(fmt.Sprintf("%s like =", key), field)
 			}
 		}
 	}
+	log.Println(query)
 	var count int64
 	err := query.Count(&count).Error
 	if err != nil {
