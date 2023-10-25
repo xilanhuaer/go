@@ -40,6 +40,7 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 	var (
 		interface_implements []entity.InterfaceImpl
 	)
+	log.Println(params)
 	query := global.DB.Model(&entity.InterfaceImpl{})
 	for key, field := range params {
 		log.Println(key, field)
