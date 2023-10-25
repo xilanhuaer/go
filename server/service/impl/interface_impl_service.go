@@ -46,7 +46,7 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 			if key == "name" || key == "interface_name" {
 				query.Where(fmt.Sprintf("%s like ?", key), "%"+field+"%")
 			} else {
-				query.Where(fmt.Sprintf("%s like =", key), field)
+				query.Where(fmt.Sprintf("%s = ?", key), field)
 			}
 		}
 	}
