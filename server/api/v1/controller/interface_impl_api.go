@@ -35,7 +35,7 @@ func (iia *InterfaceImplApi) FindInterfaceImplements(c *gin.Context) {
 	params := map[string]string{
 		"name":               c.DefaultQuery("name", ""),
 		"type":               c.DefaultQuery("type", ""),
-		"interface_id":       c.DefaultQuery("interface_id", ""),
+		"interface_name":     c.DefaultQuery("interface_name", ""),
 		"main_collection_id": c.DefaultQuery("main_collection_id", ""),
 		"sub_collection_id":  c.DefaultQuery("sub_collection_id", ""),
 		"enabled":            c.DefaultQuery("enabled", ""),
