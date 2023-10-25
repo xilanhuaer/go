@@ -52,7 +52,7 @@ func Register(route *gin.Engine) {
 	{
 		interfaceImplGroup.POST("", interfaceImplApi.CreateImpl)
 		interfaceImplGroup.GET("/", interfaceImplApi.FindInterfaceImplements)
-		interfaceImplGroup.GET("/:id", interfaceImplApi.FindInterfaceImplById)
+		interfaceImplGroup.PUT("/:id", interfaceImplApi.UpdateInterfaceImplById)
 	}
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
 	requestGroup := route.Group("/v1/request", jwtApi.JWTAuthMiddleware())
