@@ -39,7 +39,7 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 	var (
 		interface_implements []entity.InterfaceImpl
 	)
-	query := global.DB.Model(&entity.Interface{})
+	query := global.DB.Model(&entity.InterfaceImpl{})
 	for key, field := range params {
 		if params[key] != "" {
 			if key != "name" {
