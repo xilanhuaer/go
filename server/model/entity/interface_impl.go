@@ -13,9 +13,9 @@ type InterfaceImpl struct {
 	Name               string         `gorm:"type:varchar(255)" json:"name"`
 	Path               string         `gorm:"type:varchar(255);not null" json:"path"`
 	Type               string         `gorm:"type:varchar(255)" json:"type"`
-	Params             string         `gorm:"type:text" json:"params"`
-	Headers            string         `gorm:"type:text" json:"headers"`
-	JsonBody           string         `gorm:"type:text" json:"json_body"`
+	Params             *string        `gorm:"type:text" json:"params"`
+	Headers            *string        `gorm:"type:text" json:"headers"`
+	JsonBody           *string        `gorm:"type:text" json:"json_body"`
 	Enabled            string         `gorm:"type:char(1);not null;default:1" json:"enabled"`
 	Description        string         `gorm:"type:varchar(255)" json:"description"`
 	MainCollectionID   uint           `json:"main_collection_id"`
