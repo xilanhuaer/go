@@ -4,7 +4,6 @@ import (
 	"interface/model/common/response"
 	"interface/model/entity"
 	"interface/utils"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -68,7 +67,6 @@ func (iia *InterfaceImplApi) FindInterfaceImplById(c *gin.Context) {
 func (iia *InterfaceImplApi) UpdateInterfaceImplById(c *gin.Context) {
 	// 获取id
 	id := c.Param("id")
-	log.Println(id)
 	name := c.MustGet("username").(string)
 	var ii entity.InterfaceImpl
 	if err := c.ShouldBindJSON(&ii); err != nil {
