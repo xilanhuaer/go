@@ -42,7 +42,7 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 	for key, field := range params {
 		if field != "" {
 			// 模糊查询
-			if key == "name" {
+			if key == "name" || key == "interface_name" {
 				query = query.Where(key+" like ?", "%"+field+"%")
 			} else {
 				query = query.Where(key+" = ?", field)

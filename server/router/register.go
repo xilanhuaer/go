@@ -51,6 +51,7 @@ func Register(route *gin.Engine) {
 	interfaceImplApi := api.ApiGroupApp.ControllerApiGroup.InterfaceImplApi
 	{
 		interfaceImplGroup.POST("", interfaceImplApi.CreateImpl)
+		interfaceImplGroup.GET("/", interfaceImplApi.FindInterfaceImplements)
 	}
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
 	requestGroup := route.Group("/v1/request", jwtApi.JWTAuthMiddleware())
