@@ -1,6 +1,7 @@
 package impl
 
 import (
+	"fmt"
 	"interface/global"
 	"interface/model/entity"
 )
@@ -38,24 +39,24 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 	var (
 		interface_implements []entity.InterfaceImpl
 	)
-	query := global.DB.Model(&entity.InterfaceImpl{})
+	query := global.DB.Model(&entity.Interface{})
 	for key, field := range params {
-		if field != "" {
-			// 模糊查询
-			if key == "name" || key == "interface_name" {
-				query = query.Where(key+" like ?", "%"+field+"%")
+		if params[key] != "" {
+			if key != "name" {
+				query.Where(fmt.Sprintf("%s=?", key), field)
 			} else {
-				query = query.Where(key+" = ?", field)
+				query.Where("name like ?", "%"+field+"%")
 			}
 		}
 	}
-	var total int64
-	// 查询总数
-	if err := query.Count(&total).Error; err != nil {
-		return nil, 0, err
+	var count int64
+	err := query.Count(&count).Error
+	if err != nil {
+		return interface_implements, 0, err
 	}
-	err := query.Limit(limit).Offset(offset).Find(&interface_implements).Error
-	return interface_implements, total, err
+	err = query.Limit(limit).Offset(offset).Order("enabled desc,id desc").Find(&interface_implements).Error
+	return interface_implements, count, err
+
 }
 
 // 根据id查询接口实现
