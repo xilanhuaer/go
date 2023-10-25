@@ -96,6 +96,12 @@ func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.In
 	if err = global.DB.Raw("select name from sub_collection where id = ?", ii.SubCollectionID).Scan(&sub_collection_name).Error; err != nil {
 		return err
 	}
+	{
+		ii.InterfaceName = interface_name
+		ii.Path = path
+		ii.MainCollectionName = main_collection_name
+		ii.SubCollectionName = sub_collection_name
+	}
 	err = global.DB.Where("id = ?", id).Model(&entity.InterfaceImpl{}).Updates(&ii).Update("updator", name).Error
 	return err
 }
