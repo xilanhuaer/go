@@ -11,6 +11,7 @@ type InterfaceImpl struct {
 	InterfaceID        uint           `gorm:"not null" json:"interface_id"`
 	InterfaceName      string         `gorm:"not null" json:"interface_name"`
 	Name               string         `gorm:"type:varchar(255)" json:"name"`
+	Path               string         `gorm:"type:varchar(255);not null" json:"path"`
 	Type               string         `gorm:"type:varchar(255)" json:"type"`
 	Params             string         `gorm:"type:text" json:"params"`
 	Headers            string         `gorm:"type:text" json:"headers"`

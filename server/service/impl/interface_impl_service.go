@@ -12,11 +12,14 @@ type InterfaceImplService struct {
 
 func (iis *InterfaceImplService) CreateImpl(ii entity.InterfaceImpl) error {
 	var (
-		interface_name, main_collection_name, sub_collection_name string
-		err                                                       error
+		interface_name, main_collection_name, sub_collection_name, path string
+		err                                                             error
 	)
 	// 查询对应的关联表中存储的名称
 	if err = global.DB.Raw("select name from interface where id = ?", ii.InterfaceID).Scan(&interface_name).Error; err != nil {
+		return err
+	}
+	if err = global.DB.Raw("select path from interface where id = ?", ii.InterfaceID).Scan(&path).Error; err != nil {
 		return err
 	}
 	if err = global.DB.Raw("select name from main_collection where id = ?", ii.MainCollectionID).Scan(&main_collection_name).Error; err != nil {
@@ -26,6 +29,7 @@ func (iis *InterfaceImplService) CreateImpl(ii entity.InterfaceImpl) error {
 		return err
 	}
 	ii.InterfaceName = interface_name
+	ii.Path = path
 	ii.MainCollectionName = main_collection_name
 	ii.SubCollectionName = sub_collection_name
 	if err = global.DB.Create(&ii).Error; err != nil {
@@ -75,8 +79,8 @@ func (iis *InterfaceImplService) FindInterfaceImplById(id string) (entity.Interf
 // params id, entity.InterfaceImpl
 // return error
 func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.InterfaceImpl, name string) error {
-	err := global.DB.Where("id = ?", id).Updates(&ii).Update("updator", name).Error
-	return err
+	//todo
+	return nil
 }
 
 // 根据id删除接口实现
