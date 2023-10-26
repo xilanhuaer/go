@@ -10,8 +10,9 @@ import (
 func InjectUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 从请求头中获取用户信息
-		username, exists := c.Get("username")
+		user, exists := c.Get("username")
 		if exists {
+			username := user.(string)
 			global.DB.Set("creator", username)
 			global.DB.Set("updator", username)
 		}
