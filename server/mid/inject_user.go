@@ -13,8 +13,8 @@ func InjectUser() gin.HandlerFunc {
 		user, exists := c.Get("username")
 		if exists {
 			username := user.(string)
-			global.DB.Set("creator", username)
-			global.DB.Set("updator", username)
+			global.DB.Set("Creator", username)
+			global.DB.Set("Updator", username)
 		}
 		c.Next()
 	}
