@@ -1,4 +1,4 @@
-package controller
+package middleware
 
 import (
 	"interface/global"
@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type JWTAuthMiddlewareApi struct {
+type JWTAuthMiddleware struct {
 }
 
-func (j *JWTAuthMiddlewareApi) JWTAuthMiddleware() func(c *gin.Context) {
+func (j *JWTAuthMiddleware) JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
