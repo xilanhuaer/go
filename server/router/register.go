@@ -2,6 +2,7 @@ package router
 
 import (
 	"interface/api"
+	"interface/mid"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,7 +41,7 @@ func Register(route *gin.Engine) {
 	interfaceGroup := route.Group("/v1/interface", jwtApi.JWTAuthMiddleware())
 	interfaceApi := api.ApiGroupApp.ControllerApiGroup.InterfaceApi
 	{
-		interfaceGroup.POST("", interfaceApi.CreateInterface)
+		interfaceGroup.POST("", mid.InjectUser(), interfaceApi.CreateInterface)
 		interfaceGroup.GET("/", interfaceApi.FindInterfaces)
 		interfaceGroup.GET("/:id", interfaceApi.FindInterface)
 		interfaceGroup.PUT("/:id", interfaceApi.UpdateInterface)

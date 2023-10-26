@@ -13,14 +13,11 @@ type InterfaceApi struct {
 
 func (i *InterfaceApi) CreateInterface(c *gin.Context) {
 	var e entity.Interface
-	name := c.MustGet("username").(string)
 	err := c.ShouldBindJSON(&e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	e.Creator = name
-	e.Updator = name
 	err = interfaceService.CreateInterface(e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
