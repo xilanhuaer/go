@@ -12,8 +12,8 @@ func InjectUser() gin.HandlerFunc {
 		// 从请求头中获取用户信息
 		username, exists := c.Get("username")
 		if exists {
-			global.DB.Set("Creator", username)
-			global.DB.Set("Updator", username)
+			global.DB.Set("creator", username)
+			global.DB.Set("updator", username)
 		}
 		c.Next()
 	}
