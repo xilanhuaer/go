@@ -10,7 +10,7 @@ import (
 type InterfaceImplService struct {
 }
 
-func (iis *InterfaceImplService) CreateImpl(ii entity.InterfaceImpl) error {
+func (interfaceImplService *InterfaceImplService) CreateImpl(ii entity.InterfaceImpl) error {
 	var (
 		interface_name, main_collection_name, sub_collection_name, path string
 		err                                                             error
@@ -40,7 +40,7 @@ func (iis *InterfaceImplService) CreateImpl(ii entity.InterfaceImpl) error {
 
 // 查询接口实现列表
 // return []entity.InterfaceImpl, int64, error
-func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, params map[string]string) ([]entity.InterfaceImpl, int64, error) {
+func (interfaceImplService *InterfaceImplService) FindInterfaceImplements(limit, offset int, params map[string]string) ([]entity.InterfaceImpl, int64, error) {
 	var (
 		interface_implements []entity.InterfaceImpl
 	)
@@ -67,7 +67,7 @@ func (iis *InterfaceImplService) FindInterfaceImplements(limit, offset int, para
 
 // 根据id查询接口实现
 // return entity.InterfaceImpl, error
-func (iis *InterfaceImplService) FindInterfaceImplById(id string) (entity.InterfaceImpl, error) {
+func (interfaceImplService *InterfaceImplService) FindInterfaceImplById(id string) (entity.InterfaceImpl, error) {
 	var (
 		interface_impl entity.InterfaceImpl
 	)
@@ -78,7 +78,7 @@ func (iis *InterfaceImplService) FindInterfaceImplById(id string) (entity.Interf
 // 根据id更新接口实现
 // params id, entity.InterfaceImpl
 // return error
-func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.InterfaceImpl, name string) error {
+func (interfaceImplService *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.InterfaceImpl, name string) error {
 	var (
 		interface_name, main_collection_name, sub_collection_name, path string
 		err                                                             error
@@ -109,7 +109,7 @@ func (iis *InterfaceImplService) UpdateInterfaceImplById(id string, ii entity.In
 // 根据id删除接口实现
 // params id name
 // return error
-func (iis *InterfaceImplService) DeleteInterfaceImplById(id, name string) error {
+func (interfaceImplService *InterfaceImplService) DeleteInterfaceImplById(id, name string) error {
 	err := global.DB.Raw("update interface_impl set deleted_at = now(),updator = ? where id = ?", name, id).Error
 	return err
 }
@@ -117,7 +117,7 @@ func (iis *InterfaceImplService) DeleteInterfaceImplById(id, name string) error 
 // 根据ID切换接口实现的状态
 // params id, entity.InterfaceImpl
 // return error
-func (iis *InterfaceImplService) SwitchInterfaceImplById(id string, ii entity.InterfaceImpl) error {
+func (interfaceImplService *InterfaceImplService) SwitchInterfaceImplById(id string, ii entity.InterfaceImpl) error {
 	err := global.DB.Raw("update interface_impl set enabled = ? ,updator = ? where id = ?", ii.Enabled, ii.Updator, id).Error
 	return err
 }

@@ -8,17 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type InterfaceApi struct {
+type InterfaceController struct {
 }
 
-func (i *InterfaceApi) CreateInterface(c *gin.Context) {
+func (interfaceController *InterfaceController) Create(c *gin.Context) {
 	var e entity.Interface
 	err := c.ShouldBindJSON(&e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err = interfaceService.CreateInterface(e)
+	err = interfaceService.Create(e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -26,7 +26,7 @@ func (i *InterfaceApi) CreateInterface(c *gin.Context) {
 	response.OKWithData(true, c)
 }
 
-func (i *InterfaceApi) FindInterfaces(c *gin.Context) {
+func (interfaceController *InterfaceController) List(c *gin.Context) {
 	page := c.DefaultQuery("page", "1")
 	page_size := c.DefaultQuery("page_size", "10")
 	params := map[string]string{
@@ -37,7 +37,7 @@ func (i *InterfaceApi) FindInterfaces(c *gin.Context) {
 		"main_collection_id": c.DefaultQuery("main_collection_id", ""),
 		"sub_collection_id":  c.DefaultQuery("sub_collection_id", ""),
 	}
-	e, count, err := interfaceService.FindInterfaces(page, page_size, params)
+	e, count, err := interfaceService.List(page, page_size, params)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -48,16 +48,16 @@ func (i *InterfaceApi) FindInterfaces(c *gin.Context) {
 	}
 	response.OKWithData(data, c)
 }
-func (i *InterfaceApi) FindInterface(c *gin.Context) {
+func (interfaceController *InterfaceController) Find(c *gin.Context) {
 	id := c.Param("id")
-	data, err := interfaceService.FindInterface(id)
+	data, err := interfaceService.Find(id)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	response.OKWithData(data, c)
 }
-func (i *InterfaceApi) UpdateInterface(c *gin.Context) {
+func (i *InterfaceController) Update(c *gin.Context) {
 	id := c.Param("id")
 	name := c.MustGet("username").(string)
 	var e entity.Interface
@@ -67,14 +67,14 @@ func (i *InterfaceApi) UpdateInterface(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err := interfaceService.UpdateInterface(id, e)
+	err := interfaceService.Update(id, e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	response.OKWithData(true, c)
 }
-func (i *InterfaceApi) CheckInterfaceEnable(c *gin.Context) {
+func (interfaceController *InterfaceController) Enable(c *gin.Context) {
 	id := c.Param("id")
 	name := c.MustGet("username").(string)
 	var e entity.Interface
@@ -82,17 +82,17 @@ func (i *InterfaceApi) CheckInterfaceEnable(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err := interfaceService.CheckInterfaceEnable(id, e.Enabled, name)
+	err := interfaceService.Enable(id, e.Enabled, name)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	response.OKWithData(true, c)
 }
-func (i *InterfaceApi) DeleteInterface(c *gin.Context) {
+func (interfaceController *InterfaceController) Delete(c *gin.Context) {
 	id := c.Param("id")
 	name := c.MustGet("username").(string)
-	if err := interfaceService.DeleteInterface(id, name); err != nil {
+	if err := interfaceService.Delete(id, name); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

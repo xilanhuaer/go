@@ -5,10 +5,10 @@ import "interface/service"
 type ApiGroup struct {
 	MainCollectionApi
 	SubCollectionApi
-	InterfaceApi
+	InterfaceController
 	MainSubApi
-	InterfaceImplApi
-	UserApi
+	InterfaceImplController
+	UserController
 	RequestController
 }
 

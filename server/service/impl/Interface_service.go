@@ -10,10 +10,10 @@ import (
 type InterfaceService struct {
 }
 
-func (m *InterfaceService) CreateInterface(i entity.Interface) error {
+func (m *InterfaceService) Create(i entity.Interface) error {
 	return global.DB.Create(&i).Error
 }
-func (m *InterfaceService) FindInterfaces(page, page_size string, params map[string]string) ([]entity.Interface, int64, error) {
+func (m *InterfaceService) List(page, page_size string, params map[string]string) ([]entity.Interface, int64, error) {
 	var i []entity.Interface
 	limit, offset, err := utils.PageUtil(page, page_size)
 	if err != nil {
@@ -38,17 +38,17 @@ func (m *InterfaceService) FindInterfaces(page, page_size string, params map[str
 	return i, count, err
 
 }
-func (m *InterfaceService) FindInterface(id string) (entity.Interface, error) {
+func (m *InterfaceService) Find(id string) (entity.Interface, error) {
 	var i entity.Interface
 	err := global.DB.Where("id=?", id).First(&i).Error
 	return i, err
 }
-func (m *InterfaceService) UpdateInterface(id string, i entity.Interface) error {
+func (m *InterfaceService) Update(id string, i entity.Interface) error {
 	return global.DB.Where("id=?", id).Model(&entity.Interface{}).Updates(&i).Update("updator", i.Updator).Error
 }
-func (m *InterfaceService) CheckInterfaceEnable(id, enabled, name string) error {
+func (m *InterfaceService) Enable(id, enabled, name string) error {
 	return global.DB.Raw("update interface set enabled = ?, updator=? where id = ?", enabled, name, id).Error
 }
-func (m *InterfaceService) DeleteInterface(id, name string) error {
+func (m *InterfaceService) Delete(id, name string) error {
 	return global.DB.Raw("update interface set deleted_at = now(), updator = ? where id = ?", name, id).Error
 }
