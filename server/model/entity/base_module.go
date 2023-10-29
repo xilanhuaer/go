@@ -3,7 +3,6 @@ package entity
 import (
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -17,27 +16,23 @@ type BaseModule struct {
 }
 
 // create hooks
-func (base *BaseModule) BeforeCreate(tx *gorm.DB, c *gin.Context) (err error) {
+func (base *BaseModule) BeforeCreate(tx *gorm.DB) (err error) {
 	base.CreatedAt = time.Now().Add(8 * time.Hour)
 	base.UpdatedAt = time.Now().Add(8 * time.Hour)
-	base.Creator = c.MustGet("username").(string)
-	base.Updator = c.MustGet("username").(string)
 	return
 }
 
 // update hooks
-func (base *BaseModule) BeforeUpdate(tx *gorm.DB, c *gin.Context) (err error) {
+func (base *BaseModule) BeforeUpdate(tx *gorm.DB) (err error) {
 	base.UpdatedAt = time.Now().Add(8 * time.Hour)
-	base.Updator = c.MustGet("username").(string)
 	return
 }
 
 // delete hooks
-func (base *BaseModule) BeforeDelete(tx *gorm.DB, c *gin.Context) (err error) {
+func (base *BaseModule) BeforeDelete(tx *gorm.DB) (err error) {
 	base.DeletedAt = gorm.DeletedAt{
 		Time:  time.Now().Add(8 * time.Hour),
 		Valid: true,
 	}
-	base.Updator = c.MustGet("username").(string)
 	return
 }
