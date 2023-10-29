@@ -12,12 +12,17 @@ type InterfaceController struct {
 }
 
 func (interfaceController *InterfaceController) Create(c *gin.Context) {
-	var e entity.Interface
+	var (
+		e        entity.Interface
+		username = c.MustGet("username").(string)
+	)
 	err := c.ShouldBindJSON(&e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
+	e.Creator = username
+	e.Updator = username
 	err = interfaceService.Create(e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)

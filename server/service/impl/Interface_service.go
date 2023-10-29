@@ -5,6 +5,9 @@ import (
 	"interface/global"
 	"interface/model/entity"
 	"interface/utils"
+	"time"
+
+	"gorm.io/gorm"
 )
 
 type InterfaceService struct {
@@ -44,11 +47,14 @@ func (m *InterfaceService) Find(id string) (entity.Interface, error) {
 	return i, err
 }
 func (m *InterfaceService) Update(id string, i entity.Interface) error {
-	return global.DB.Where("id=?", id).Model(&entity.Interface{}).Updates(&i).Update("updator", i.Updator).Error
+	return global.DB.Model(&entity.Interface{}).Where("id=?", id).Updates(i).Error
 }
 func (m *InterfaceService) Enable(id, enabled, name string) error {
-	return global.DB.Raw("update interface set enabled = ?, updator=? where id = ?", enabled, name, id).Error
+	return global.DB.Model(&entity.Interface{}).Where("id=?", id).Updates(map[string]interface{}{"enabled": enabled, "updator": name}).Error
 }
 func (m *InterfaceService) Delete(id, name string) error {
-	return global.DB.Raw("update interface set deleted_at = now(), updator = ? where id = ?", name, id).Error
+	return global.DB.Model(&entity.Interface{}).Where("id=?", id).Updates(map[string]interface{}{"deleted": gorm.DeletedAt{
+		Valid: true,
+		Time:  time.Now().Add(8 * time.Hour),
+	}, "updator": name}).Error
 }
