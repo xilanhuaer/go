@@ -6,6 +6,6 @@ type MainSubEntity struct {
 	SubCollectionList  []SubCollectionData `json:"sub_collection_list"`
 }
 type SubCollectionData struct {
-	SubCollectionId   int    `json:"msub_collection_id"`
+	SubCollectionId   int    `json:"sub_collection_id"`
 	SubCollectionName string `json:"sub_collection_name"`
 }

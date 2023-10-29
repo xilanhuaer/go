@@ -23,7 +23,7 @@ func (mss *MainSubService) MainSubList() ([]entity.MainSubEntity, error) {
 		for _, sub := range subList {
 			if main.ID == uint(sub.MainCollectionId) {
 				subCollectionList = append(subCollectionList, entity.SubCollectionData{
-					SubCollectionId:   int(sub.Id),
+					SubCollectionId:   int(sub.ID),
 					SubCollectionName: sub.Name,
 				})
 			}

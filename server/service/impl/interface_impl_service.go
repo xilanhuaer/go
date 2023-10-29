@@ -12,26 +12,8 @@ type InterfaceImplService struct {
 
 func (interfaceImplService *InterfaceImplService) CreateImpl(ii entity.InterfaceImpl) error {
 	var (
-		interface_name, main_collection_name, sub_collection_name, path string
-		err                                                             error
+		err error
 	)
-	// 查询对应的关联表中存储的名称
-	if err = global.DB.Raw("select name from interface where id = ?", ii.InterfaceID).Scan(&interface_name).Error; err != nil {
-		return err
-	}
-	if err = global.DB.Raw("select path from interface where id = ?", ii.InterfaceID).Scan(&path).Error; err != nil {
-		return err
-	}
-	if err = global.DB.Raw("select name from main_collection where id = ?", ii.MainCollectionID).Scan(&main_collection_name).Error; err != nil {
-		return err
-	}
-	if err = global.DB.Raw("select name from sub_collection where id = ?", ii.SubCollectionID).Scan(&sub_collection_name).Error; err != nil {
-		return err
-	}
-	ii.InterfaceName = interface_name
-	ii.Path = path
-	ii.MainCollectionName = main_collection_name
-	ii.SubCollectionName = sub_collection_name
 	if err = global.DB.Create(&ii).Error; err != nil {
 		return err
 	}
