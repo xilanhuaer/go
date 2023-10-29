@@ -19,5 +19,24 @@ type BaseModule struct {
 func (base *BaseModule) BeforeCreate(tx *gorm.DB) (err error) {
 	base.CreatedAt = time.Now().Add(8 * time.Hour)
 	base.UpdatedAt = time.Now().Add(8 * time.Hour)
+	base.Creator = "admin"
+	base.Updator = "admin"
+	return
+}
+
+// update hooks
+func (base *BaseModule) BeforeUpdate(tx *gorm.DB) (err error) {
+	base.UpdatedAt = time.Now().Add(8 * time.Hour)
+	base.Updator = "admin"
+	return
+}
+
+// delete hooks
+func (base *BaseModule) BeforeDelete(tx *gorm.DB) (err error) {
+	base.DeletedAt = gorm.DeletedAt{
+		Time:  time.Now().Add(8 * time.Hour),
+		Valid: true,
+	}
+	base.Updator = "admin"
 	return
 }
