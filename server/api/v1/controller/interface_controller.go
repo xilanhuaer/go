@@ -86,7 +86,7 @@ func (interfaceController *InterfaceController) Enable(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err := interfaceService.Enable(id, e.Enabled, name)
+	err := orm.Enable(&e, id, name)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -96,7 +96,7 @@ func (interfaceController *InterfaceController) Enable(c *gin.Context) {
 func (interfaceController *InterfaceController) Delete(c *gin.Context) {
 	id := c.Param("id")
 	name := c.MustGet("username").(string)
-	if err := interfaceService.Delete(id, name); err != nil {
+	if err := orm.Delete(&entity.Interface{}, id, name); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
