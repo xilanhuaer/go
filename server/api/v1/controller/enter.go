@@ -3,7 +3,7 @@ package controller
 import "interface/service"
 
 type ApiGroup struct {
-	MainCollectionApi
+	MainCollectionController
 	SubCollectionApi
 	InterfaceController
 	MainSubApi

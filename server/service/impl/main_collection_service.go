@@ -13,7 +13,7 @@ type MainCollectionService struct{}
 func (m *MainCollectionService) CreateMainCollection(e entity.MainCollection) error {
 	return global.DB.Create(&e).Error
 }
-func (m *MainCollectionService) FindMainCollections(page, page_size string, params map[string]string) ([]entity.MainCollection, int64, error) {
+func (m *MainCollectionService) List(page, page_size string, params map[string]string) ([]entity.MainCollection, int64, error) {
 	var mainCollections []entity.MainCollection
 	limit, offset, err := utils.PageUtil(page, page_size)
 	if err != nil {
@@ -38,7 +38,7 @@ func (m *MainCollectionService) FindMainCollections(page, page_size string, para
 	return mainCollections, count, err
 
 }
-func (m *MainCollectionService) FindMainCollection(id string) (entity.MainCollection, error) {
+func (m *MainCollectionService) Find(id string) (entity.MainCollection, error) {
 	var mainCollection entity.MainCollection
 	err := global.DB.Where("id=?", id).First(&mainCollection).Error
 	return mainCollection, err

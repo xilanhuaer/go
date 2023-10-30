@@ -18,14 +18,14 @@ func Register(route *gin.Engine) {
 		userGroup.POST("/edit_password", jwt.JWTAuthMiddleware(), userApi.UpdatePassword)
 	}
 	mainCollectionGroup := route.Group("/v1/collection/main", jwt.JWTAuthMiddleware())
-	mainCollectionApi := api.ApiGroupApp.ControllerApiGroup.MainCollectionApi
+	mainCollectionController := api.ApiGroupApp.ControllerApiGroup.MainCollectionController
 	{
-		mainCollectionGroup.POST("", mainCollectionApi.CreateMainCollection)
-		mainCollectionGroup.GET("/", mainCollectionApi.FindMainCollections)
-		mainCollectionGroup.GET("/:id", mainCollectionApi.FindMainCollection)
-		mainCollectionGroup.PUT("/:id", mainCollectionApi.UpdateMainCollection)
-		mainCollectionGroup.PUT("/enable/:id", mainCollectionApi.CheckMainCollectionEnable)
-		mainCollectionGroup.DELETE("/:id", mainCollectionApi.DeleteMainCollection)
+		mainCollectionGroup.POST("", mainCollectionController.Create)
+		mainCollectionGroup.GET("/", mainCollectionController.List)
+		mainCollectionGroup.GET("/:id", mainCollectionController.Find)
+		mainCollectionGroup.PUT("/:id", mainCollectionController.Update)
+		mainCollectionGroup.PUT("/enable/:id", mainCollectionController.Enable)
+		mainCollectionGroup.DELETE("/:id", mainCollectionController.Delete)
 	}
 	subCollectionGroup := route.Group("/v1/collection/sub", jwt.JWTAuthMiddleware())
 	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionApi

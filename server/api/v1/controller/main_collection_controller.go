@@ -3,90 +3,103 @@ package controller
 import (
 	"interface/model/common/response"
 	"interface/model/entity"
+	"interface/orm"
 	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
-type MainCollectionApi struct{}
+type MainCollectionController struct{}
 
-func (m *MainCollectionApi) CreateMainCollection(c *gin.Context) {
-	var mainCollection entity.MainCollection
-	err := c.ShouldBindJSON(&mainCollection)
+func (mainCollectionController *MainCollectionController) Create(context *gin.Context) {
+	var (
+		mainCollection entity.MainCollection
+		username       = context.MustGet("username").(string)
+	)
+	err := context.ShouldBindJSON(&mainCollection)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	err = mainCollectionService.CreateMainCollection(mainCollection)
+	err = orm.Create(&mainCollection, username)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
 
-func (e *MainCollectionApi) FindMainCollections(c *gin.Context) {
-	page := c.DefaultQuery("page", "1")
-	page_size := c.DefaultQuery("page_size", "10")
+func (mainCollectionController *MainCollectionController) List(context *gin.Context) {
+	page := context.DefaultQuery("page", "1")
+	page_size := context.DefaultQuery("page_size", "10")
 	params := map[string]string{
-		"name":       c.DefaultQuery("name", ""),
-		"enabled":    c.DefaultQuery("enabled", "1"),
-		"created_at": c.DefaultQuery("created_at", ""),
+		"name":       context.DefaultQuery("name", ""),
+		"enabled":    context.DefaultQuery("enabled", "1"),
+		"created_at": context.DefaultQuery("created_at", ""),
 	}
-	maincollections, count, err := mainCollectionService.FindMainCollections(page, page_size, params)
+	maincollections, count, err := mainCollectionService.List(page, page_size, params)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	data := response.PageResult{
 		List:  maincollections,
 		Total: count,
 	}
-	response.OKWithData(data, c)
+	response.OKWithData(data, context)
 }
-func (e *MainCollectionApi) FindMainCollection(c *gin.Context) {
-	id := c.Param("id")
-	data, err := mainCollectionService.FindMainCollection(id)
+func (mainCollectionController *MainCollectionController) Find(context *gin.Context) {
+	id := context.Param("id")
+	data, err := mainCollectionService.Find(id)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(data, c)
+	response.OKWithData(data, context)
 }
-func (e *MainCollectionApi) UpdateMainCollection(c *gin.Context) {
-	id := c.Param("id")
-	var mainCollection entity.MainCollection
-	if err := c.ShouldBindJSON(&mainCollection); err != nil {
+func (mainCollectionController *MainCollectionController) Update(context *gin.Context) {
+	var (
+		mainCollection entity.MainCollection
+		username       = context.MustGet("username").(string)
+	)
+	if err := context.ShouldBindJSON(&mainCollection); err != nil {
 		log.Println(1)
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	err := mainCollectionService.UpdateMainCollection(id, mainCollection)
+	err := orm.Update(&mainCollection, username)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
-func (e *MainCollectionApi) CheckMainCollectionEnable(c *gin.Context) {
-	id := c.Param("id")
-	var mainCollection entity.MainCollection
-	if err := c.ShouldBindJSON(&mainCollection); err != nil {
-		response.FailWithMessage(err.Error(), c)
+func (mainCollectionController *MainCollectionController) Enable(context *gin.Context) {
+
+	var (
+		mainCollection entity.MainCollection
+		id             = context.Param("id")
+		username       = context.MustGet("username").(string)
+	)
+	if err := context.ShouldBindJSON(&mainCollection); err != nil {
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	err := mainCollectionService.CheckMainCollectionEnable(id, mainCollection)
+	err := orm.Enable(&mainCollection, id, username)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
-func (e *MainCollectionApi) DeleteMainCollection(c *gin.Context) {
-	id := c.Param("id")
-	if err := mainCollectionService.DeleteMainCollection(id); err != nil {
-		response.FailWithMessage(err.Error(), c)
+func (mainCollectionController *MainCollectionController) Delete(context *gin.Context) {
+	var (
+		id       = context.Param("id")
+		username = context.MustGet("username").(string)
+	)
+	if err := orm.Delete(&entity.MainCollection{}, id, username); err != nil {
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
