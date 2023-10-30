@@ -22,8 +22,7 @@ func (interfaceController *InterfaceController) Create(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	orm.Create(&e, username)
-	err = interfaceService.Create(e)
+	err = orm.Create(e, username)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -63,16 +62,17 @@ func (interfaceController *InterfaceController) Find(c *gin.Context) {
 	response.OKWithData(data, c)
 }
 func (interfaceController *InterfaceController) Update(c *gin.Context) {
-	id := c.Param("id")
-	name := c.MustGet("username").(string)
-	var e entity.Interface
-	e.Updator = name
+	var (
+		id   = c.Param("id")
+		e    entity.Interface
+		name = c.MustGet("username").(string)
+	)
 	if err := c.ShouldBindJSON(&e); err != nil {
 		log.Println(1)
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err := interfaceService.Update(id, e)
+	err := orm.Update(&e, id, name)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
