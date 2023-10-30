@@ -3,6 +3,7 @@ package controller
 import (
 	"interface/model/common/response"
 	"interface/model/entity"
+	"interface/orm"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -21,8 +22,7 @@ func (interfaceController *InterfaceController) Create(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	e.Creator = username
-	e.Updator = username
+	orm.Create(&e, username)
 	err = interfaceService.Create(e)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -62,7 +62,7 @@ func (interfaceController *InterfaceController) Find(c *gin.Context) {
 	}
 	response.OKWithData(data, c)
 }
-func (i *InterfaceController) Update(c *gin.Context) {
+func (interfaceController *InterfaceController) Update(c *gin.Context) {
 	id := c.Param("id")
 	name := c.MustGet("username").(string)
 	var e entity.Interface
