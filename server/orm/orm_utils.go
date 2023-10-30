@@ -28,7 +28,7 @@ func Create(model interface{}, name string) error {
 	}
 	return global.DB.Create(model).Error
 }
-func Update(model interface{}, id, name string) error {
+func Update(model interface{}, name string) error {
 	dest := reflect.TypeOf(model)
 	value := reflect.ValueOf(model)
 	if dest.Kind() != reflect.Ptr || value.Kind() != reflect.Ptr {
@@ -47,5 +47,5 @@ func Update(model interface{}, id, name string) error {
 			value.FieldByName(fieldName).SetString(name)
 		}
 	}
-	return global.DB.Model(model).Where("id = ?").Updates(model).Error
+	return global.DB.Model(model).Updates(model).Error
 }

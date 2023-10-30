@@ -63,7 +63,6 @@ func (interfaceController *InterfaceController) Find(c *gin.Context) {
 }
 func (interfaceController *InterfaceController) Update(c *gin.Context) {
 	var (
-		id   = c.Param("id")
 		e    entity.Interface
 		name = c.MustGet("username").(string)
 	)
@@ -72,7 +71,7 @@ func (interfaceController *InterfaceController) Update(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err := orm.Update(&e, id, name)
+	err := orm.Update(&e, name)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
