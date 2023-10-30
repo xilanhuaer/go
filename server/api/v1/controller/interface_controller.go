@@ -22,7 +22,7 @@ func (interfaceController *InterfaceController) Create(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err = orm.Create(e, username)
+	err = orm.Create(&e, username)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
