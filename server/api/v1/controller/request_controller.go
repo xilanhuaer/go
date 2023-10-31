@@ -18,12 +18,11 @@ func (rc *RequestController) TestRequest(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 	}
 	var res struct {
-		code int
-		data string
+		Code int
+		Data string
 	}
-	log.Println(code)
-	res.code = code
-	log.Println(resBody)
-	res.data = resBody
+	res.Code = code
+	res.Data = resBody
+	log.Println(res)
 	response.OKWithData(res, c)
 }
