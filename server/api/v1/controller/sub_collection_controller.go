@@ -8,87 +8,87 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SubCollectionApi struct {
+type SubCollectionController struct {
 }
 
-func (s *SubCollectionApi) CreateSubCollection(c *gin.Context) {
+func (s *SubCollectionController) Create(context *gin.Context) {
 	var e entity.SubCollection
-	err := c.ShouldBindJSON(&e)
+	err := context.ShouldBindJSON(&e)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	err = subCollectionService.CreateSubCollection(e)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
 
-func (s *SubCollectionApi) FindSubCollections(c *gin.Context) {
-	page := c.DefaultQuery("page", "1")
-	page_size := c.DefaultQuery("page_size", "10")
+func (s *SubCollectionController) List(context *gin.Context) {
+	page := context.DefaultQuery("page", "1")
+	page_size := context.DefaultQuery("page_size", "10")
 	params := map[string]string{
-		"name":               c.DefaultQuery("name", ""),
-		"enabled":            c.DefaultQuery("enabled", "1"),
-		"created_at":         c.DefaultQuery("created_at", ""),
-		"main_collection_id": c.DefaultQuery("main_collection_id", ""),
+		"name":               context.DefaultQuery("name", ""),
+		"enabled":            context.DefaultQuery("enabled", "1"),
+		"created_at":         context.DefaultQuery("created_at", ""),
+		"main_collection_id": context.DefaultQuery("main_collection_id", ""),
 	}
 	e, count, err := subCollectionService.FindSubCollections(page, page_size, params)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	data := response.PageResult{
 		List:  e,
 		Total: count,
 	}
-	response.OKWithData(data, c)
+	response.OKWithData(data, context)
 }
-func (s *SubCollectionApi) FindSubCollection(c *gin.Context) {
-	id := c.Param("id")
+func (s *SubCollectionController) Find(context *gin.Context) {
+	id := context.Param("id")
 	data, err := subCollectionService.FindSubCollection(id)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(data, c)
+	response.OKWithData(data, context)
 }
-func (s *SubCollectionApi) UpdateSubCollection(c *gin.Context) {
-	id := c.Param("id")
+func (s *SubCollectionController) Update(context *gin.Context) {
+	id := context.Param("id")
 	var e entity.SubCollection
-	if err := c.ShouldBindJSON(&e); err != nil {
+	if err := context.ShouldBindJSON(&e); err != nil {
 		log.Println(1)
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	err := subCollectionService.UpdateSubCollection(id, e)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
-func (s *SubCollectionApi) CheckSubCollectionEnable(c *gin.Context) {
-	id := c.Param("id")
+func (s *SubCollectionController) Enable(context *gin.Context) {
+	id := context.Param("id")
 	var e entity.SubCollection
-	if err := c.ShouldBindJSON(&e); err != nil {
-		response.FailWithMessage(err.Error(), c)
+	if err := context.ShouldBindJSON(&e); err != nil {
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	err := subCollectionService.CheckSubCollectionEnable(id, e)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
-func (s *SubCollectionApi) DeleteSubCollection(c *gin.Context) {
-	id := c.Param("id")
+func (s *SubCollectionController) Delete(context *gin.Context) {
+	id := context.Param("id")
 	if err := subCollectionService.DeleteSubCollection(id); err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }

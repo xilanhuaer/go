@@ -12,93 +12,93 @@ import (
 type InterfaceController struct {
 }
 
-func (interfaceController *InterfaceController) Create(c *gin.Context) {
+func (interfaceController *InterfaceController) Create(context *gin.Context) {
 	var (
 		e        entity.Interface
-		username = c.MustGet("username").(string)
+		username = context.MustGet("username").(string)
 	)
-	err := c.ShouldBindJSON(&e)
+	err := context.ShouldBindJSON(&e)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	err = orm.Create(&e, username)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
 
-func (interfaceController *InterfaceController) List(c *gin.Context) {
-	page := c.DefaultQuery("page", "1")
-	page_size := c.DefaultQuery("page_size", "10")
+func (interfaceController *InterfaceController) List(context *gin.Context) {
+	page := context.DefaultQuery("page", "1")
+	page_size := context.DefaultQuery("page_size", "10")
 	params := map[string]string{
-		"name":               c.DefaultQuery("name", ""),
-		"type":               c.DefaultQuery("type", ""),
-		"enabled":            c.DefaultQuery("enabled", ""),
-		"created_at":         c.DefaultQuery("created_at", ""),
-		"main_collection_id": c.DefaultQuery("main_collection_id", ""),
-		"sub_collection_id":  c.DefaultQuery("sub_collection_id", ""),
+		"name":               context.DefaultQuery("name", ""),
+		"type":               context.DefaultQuery("type", ""),
+		"enabled":            context.DefaultQuery("enabled", ""),
+		"created_at":         context.DefaultQuery("created_at", ""),
+		"main_collection_id": context.DefaultQuery("main_collection_id", ""),
+		"sub_collection_id":  context.DefaultQuery("sub_collection_id", ""),
 	}
 	e, count, err := interfaceService.List(page, page_size, params)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	data := response.PageResult{
 		List:  e,
 		Total: count,
 	}
-	response.OKWithData(data, c)
+	response.OKWithData(data, context)
 }
-func (interfaceController *InterfaceController) Find(c *gin.Context) {
-	id := c.Param("id")
+func (interfaceController *InterfaceController) Find(context *gin.Context) {
+	id := context.Param("id")
 	data, err := interfaceService.Find(id)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(data, c)
+	response.OKWithData(data, context)
 }
-func (interfaceController *InterfaceController) Update(c *gin.Context) {
+func (interfaceController *InterfaceController) Update(context *gin.Context) {
 	var (
 		e    entity.Interface
-		name = c.MustGet("username").(string)
+		name = context.MustGet("username").(string)
 	)
-	if err := c.ShouldBindJSON(&e); err != nil {
+	if err := context.ShouldBindJSON(&e); err != nil {
 		log.Println(1)
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	err := orm.Update(&e, name)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
-func (interfaceController *InterfaceController) Enable(c *gin.Context) {
-	id := c.Param("id")
-	name := c.MustGet("username").(string)
+func (interfaceController *InterfaceController) Enable(context *gin.Context) {
+	id := context.Param("id")
+	name := context.MustGet("username").(string)
 	var e entity.Interface
-	if err := c.ShouldBindJSON(&e); err != nil {
-		response.FailWithMessage(err.Error(), c)
+	if err := context.ShouldBindJSON(&e); err != nil {
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	err := orm.Enable(&e, id, name)
 	if err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }
-func (interfaceController *InterfaceController) Delete(c *gin.Context) {
-	id := c.Param("id")
-	name := c.MustGet("username").(string)
+func (interfaceController *InterfaceController) Delete(context *gin.Context) {
+	id := context.Param("id")
+	name := context.MustGet("username").(string)
 	if err := orm.Delete(&entity.Interface{}, id, name); err != nil {
-		response.FailWithMessage(err.Error(), c)
+		response.FailWithMessage(err.Error(), context)
 		return
 	}
-	response.OKWithData(true, c)
+	response.OKWithData(true, context)
 }

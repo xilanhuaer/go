@@ -4,7 +4,7 @@ import "interface/service"
 
 type ApiGroup struct {
 	MainCollectionController
-	SubCollectionApi
+	SubCollectionController
 	InterfaceController
 	MainSubApi
 	InterfaceImplController

@@ -28,15 +28,15 @@ func Register(route *gin.Engine) {
 		mainCollectionGroup.DELETE("/:id", mainCollectionController.Delete)
 	}
 	subCollectionGroup := route.Group("/v1/collection/sub", jwt.JWTAuthMiddleware())
-	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionApi
+	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionController
 
 	{
-		subCollectionGroup.POST("", subCollectionApi.CreateSubCollection)
-		subCollectionGroup.GET("/", subCollectionApi.FindSubCollections)
-		subCollectionGroup.GET("/:id", subCollectionApi.FindSubCollection)
-		subCollectionGroup.PUT("/:id", subCollectionApi.UpdateSubCollection)
-		subCollectionGroup.PUT("/enable/:id", subCollectionApi.CheckSubCollectionEnable)
-		subCollectionGroup.DELETE("/:id", subCollectionApi.DeleteSubCollection)
+		subCollectionGroup.POST("", subCollectionApi.Create)
+		subCollectionGroup.GET("/", subCollectionApi.List)
+		subCollectionGroup.GET("/:id", subCollectionApi.Find)
+		subCollectionGroup.PUT("/:id", subCollectionApi.Update)
+		subCollectionGroup.PUT("/enable/:id", subCollectionApi.Enable)
+		subCollectionGroup.DELETE("/:id", subCollectionApi.Delete)
 	}
 	interfaceGroup := route.Group("/v1/interface", jwt.JWTAuthMiddleware())
 	interfaceController := api.ApiGroupApp.ControllerApiGroup.InterfaceController
@@ -51,10 +51,10 @@ func Register(route *gin.Engine) {
 	interfaceImplGroup := route.Group("/v1/interface/impl", jwt.JWTAuthMiddleware())
 	interfaceImplController := api.ApiGroupApp.ControllerApiGroup.InterfaceImplController
 	{
-		interfaceImplGroup.POST("", interfaceImplController.CreateImpl)
-		interfaceImplGroup.GET("/", interfaceImplController.FindInterfaceImplements)
-		interfaceImplGroup.GET("/:id", interfaceImplController.FindInterfaceImplById)
-		interfaceImplGroup.PUT("/:id", interfaceImplController.UpdateInterfaceImplById)
+		interfaceImplGroup.POST("", interfaceImplController.Create)
+		interfaceImplGroup.GET("/", interfaceImplController.List)
+		interfaceImplGroup.GET("/:id", interfaceImplController.Find)
+		interfaceImplGroup.PUT("/:id", interfaceImplController.Update)
 	}
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
 	requestGroup := route.Group("/v1/request", jwt.JWTAuthMiddleware())

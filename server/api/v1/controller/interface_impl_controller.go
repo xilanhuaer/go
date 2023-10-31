@@ -11,7 +11,7 @@ import (
 type InterfaceImplController struct {
 }
 
-func (interfaceImplController *InterfaceImplController) CreateImpl(context *gin.Context) {
+func (interfaceImplController *InterfaceImplController) Create(context *gin.Context) {
 	var interfaceImpl entity.InterfaceImpl
 	name := context.MustGet("username").(string)
 	if err := context.ShouldBindJSON(&interfaceImpl); err != nil {
@@ -20,13 +20,13 @@ func (interfaceImplController *InterfaceImplController) CreateImpl(context *gin.
 	}
 	interfaceImpl.Creator = name
 	interfaceImpl.Updator = name
-	if err := interfaceImplService.CreateImpl(interfaceImpl); err != nil {
+	if err := interfaceImplService.Create(interfaceImpl); err != nil {
 		response.FailWithMessage(err.Error(), context)
 		return
 	}
 	response.OK(context)
 }
-func (interfaceImplController *InterfaceImplController) FindInterfaceImplements(context *gin.Context) {
+func (interfaceImplController *InterfaceImplController) List(context *gin.Context) {
 	limit, offset, err := utils.PageUtil(context.DefaultQuery("page", "1"), context.DefaultQuery("page_size", "10"))
 	if err != nil {
 		response.FailWithMessage(err.Error(), context)
@@ -40,7 +40,7 @@ func (interfaceImplController *InterfaceImplController) FindInterfaceImplements(
 		"sub_collection_id":  context.DefaultQuery("sub_collection_id", ""),
 		"enabled":            context.DefaultQuery("enabled", ""),
 	}
-	data, total, err := interfaceImplService.FindInterfaceImplements(limit, offset, params)
+	data, total, err := interfaceImplService.List(limit, offset, params)
 	if err != nil {
 		response.FailWithMessage(err.Error(), context)
 		return
@@ -52,10 +52,10 @@ func (interfaceImplController *InterfaceImplController) FindInterfaceImplements(
 }
 
 // 根据id查询接口实现
-func (interfaceImplController *InterfaceImplController) FindInterfaceImplById(context *gin.Context) {
+func (interfaceImplController *InterfaceImplController) Find(context *gin.Context) {
 	// 获取id
 	id := context.Param("id")
-	data, err := interfaceImplService.FindInterfaceImplById(id)
+	data, err := interfaceImplService.Find(id)
 	if err != nil {
 		response.FailWithMessage(err.Error(), context)
 		return
@@ -64,7 +64,7 @@ func (interfaceImplController *InterfaceImplController) FindInterfaceImplById(co
 }
 
 // 根据id更新接口实现
-func (interfaceImplController *InterfaceImplController) UpdateInterfaceImplById(context *gin.Context) {
+func (interfaceImplController *InterfaceImplController) Update(context *gin.Context) {
 	// 获取id
 	id := context.Param("id")
 	name := context.MustGet("username").(string)
@@ -73,7 +73,7 @@ func (interfaceImplController *InterfaceImplController) UpdateInterfaceImplById(
 		response.FailWithDetail(nil, err.Error(), context)
 		return
 	}
-	if err := interfaceImplService.UpdateInterfaceImplById(id, interfaceImpl, name); err != nil {
+	if err := interfaceImplService.Update(id, interfaceImpl, name); err != nil {
 		response.FailWithMessage(err.Error(), context)
 		return
 	}
@@ -81,11 +81,11 @@ func (interfaceImplController *InterfaceImplController) UpdateInterfaceImplById(
 }
 
 // 根据id删除接口实现
-func (interfaceImplController *InterfaceImplController) DeleteInterfaceImplById(context *gin.Context) {
+func (interfaceImplController *InterfaceImplController) Delete(context *gin.Context) {
 	// 获取id
 	id := context.Param("id")
 	name := context.MustGet("username").(string)
-	if err := interfaceImplService.DeleteInterfaceImplById(id, name); err != nil {
+	if err := interfaceImplService.Delete(id, name); err != nil {
 		response.FailWithMessage(err.Error(), context)
 		return
 	}
@@ -93,7 +93,7 @@ func (interfaceImplController *InterfaceImplController) DeleteInterfaceImplById(
 }
 
 // 根据id切换接口实现状态
-func (interfaceImplController *InterfaceImplController) SwitchInterfaceImplById(context *gin.Context) {
+func (interfaceImplController *InterfaceImplController) Enable(context *gin.Context) {
 	var (
 		interfaceImpl entity.InterfaceImpl
 		id            string
@@ -105,7 +105,7 @@ func (interfaceImplController *InterfaceImplController) SwitchInterfaceImplById(
 		return
 	}
 	interfaceImpl.Updator = name
-	if err := interfaceImplService.SwitchInterfaceImplById(id, interfaceImpl); err != nil {
+	if err := interfaceImplService.Enable(id, interfaceImpl); err != nil {
 		response.FailWithMessage(err.Error(), context)
 		return
 	}
