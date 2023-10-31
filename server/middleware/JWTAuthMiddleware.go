@@ -16,7 +16,7 @@ func (j *JWTAuthMiddleware) JWTAuthMiddleware() func(c *gin.Context) {
 		urlPath := c.Request.URL.Path
 		switch urlPath {
 		case "/v1/user/register", "/v1/user/login":
-			c.Next()
+			return
 		}
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
