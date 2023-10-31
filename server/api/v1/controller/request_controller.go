@@ -2,6 +2,7 @@ package controller
 
 import (
 	"interface/model/common/response"
+	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -20,7 +21,9 @@ func (rc *RequestController) TestRequest(c *gin.Context) {
 		code int
 		data string
 	}
+	log.Println(code)
 	res.code = code
+	log.Println(resBody)
 	res.data = resBody
 	response.OKWithData(res, c)
 }
