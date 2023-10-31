@@ -13,6 +13,11 @@ type JWTAuthMiddleware struct {
 
 func (j *JWTAuthMiddleware) JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		urlPath := c.Request.URL.Path
+		switch urlPath {
+		case "/v1/user/register", "/v1/user/login":
+			c.Next()
+		}
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
 			response.FailWithMessage("请求头中auth为空", c)
