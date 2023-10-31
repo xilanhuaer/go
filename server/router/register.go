@@ -2,22 +2,20 @@ package router
 
 import (
 	"interface/api"
-	"interface/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Register(route *gin.Engine) {
-	jwt := &middleware.JWTAuthMiddleware{}
 	userGroup := route.Group("/v1/user")
 	userApi := api.ApiGroupApp.ControllerApiGroup.UserController
 	{
 		userGroup.POST("/register", userApi.Register)
 		userGroup.POST("/login", userApi.Login)
-		userGroup.GET("/info", jwt.JWTAuthMiddleware(), userApi.UserInfo)
-		userGroup.POST("/edit_password", jwt.JWTAuthMiddleware(), userApi.UpdatePassword)
+		userGroup.GET("/info", userApi.UserInfo)
+		userGroup.POST("/edit_password", userApi.UpdatePassword)
 	}
-	mainCollectionGroup := route.Group("/v1/collection/main", jwt.JWTAuthMiddleware())
+	mainCollectionGroup := route.Group("/v1/collection/main")
 	mainCollectionController := api.ApiGroupApp.ControllerApiGroup.MainCollectionController
 	{
 		mainCollectionGroup.POST("", mainCollectionController.Create)
@@ -27,7 +25,7 @@ func Register(route *gin.Engine) {
 		mainCollectionGroup.PUT("/enable/:id", mainCollectionController.Enable)
 		mainCollectionGroup.DELETE("/:id", mainCollectionController.Delete)
 	}
-	subCollectionGroup := route.Group("/v1/collection/sub", jwt.JWTAuthMiddleware())
+	subCollectionGroup := route.Group("/v1/collection/sub")
 	subCollectionApi := api.ApiGroupApp.ControllerApiGroup.SubCollectionController
 
 	{
@@ -38,7 +36,7 @@ func Register(route *gin.Engine) {
 		subCollectionGroup.PUT("/enable/:id", subCollectionApi.Enable)
 		subCollectionGroup.DELETE("/:id", subCollectionApi.Delete)
 	}
-	interfaceGroup := route.Group("/v1/interface", jwt.JWTAuthMiddleware())
+	interfaceGroup := route.Group("/v1/interface")
 	interfaceController := api.ApiGroupApp.ControllerApiGroup.InterfaceController
 	{
 		interfaceGroup.POST("", interfaceController.Create)
@@ -48,7 +46,7 @@ func Register(route *gin.Engine) {
 		interfaceGroup.PUT("/enable/:id", interfaceController.Enable)
 		interfaceGroup.DELETE("/:id", interfaceController.Delete)
 	}
-	interfaceImplGroup := route.Group("/v1/interface/impl", jwt.JWTAuthMiddleware())
+	interfaceImplGroup := route.Group("/v1/interface/impl")
 	interfaceImplController := api.ApiGroupApp.ControllerApiGroup.InterfaceImplController
 	{
 		interfaceImplGroup.POST("", interfaceImplController.Create)
@@ -57,7 +55,7 @@ func Register(route *gin.Engine) {
 		interfaceImplGroup.PUT("/:id", interfaceImplController.Update)
 	}
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
-	requestGroup := route.Group("/v1/request", jwt.JWTAuthMiddleware())
+	requestGroup := route.Group("/v1/request")
 	{
 		requestGroup.GET("/", requestController.TestRequest)
 	}
