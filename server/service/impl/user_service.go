@@ -54,7 +54,7 @@ func (us *UserService) Login(user entity.User) (userinfo entity.UserInfo, err er
 	if u.Password != utils.SHA256V(user.Password) {
 		return userinfo, fmt.Errorf("密码错误")
 	}
-	token, err := global.GenJwt(u.Id, u.Account)
+	token, err := global.GenJwt(u.Id, u.Name)
 	if err != nil {
 		return userinfo, err
 	}
