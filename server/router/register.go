@@ -57,6 +57,6 @@ func Register(route *gin.Engine) {
 	requestController := api.ApiGroupApp.ControllerApiGroup.RequestController
 	requestGroup := route.Group("/v1/request")
 	{
-		requestGroup.GET("/", requestController.TestRequest)
+		requestGroup.GET("/test", requestController.TestRequest)
 	}
 }

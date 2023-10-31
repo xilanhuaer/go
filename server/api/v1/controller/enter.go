@@ -1,6 +1,8 @@
 package controller
 
-import "interface/service"
+import (
+	"interface/service"
+)
 
 type ApiGroup struct {
 	MainCollectionController
@@ -19,4 +21,5 @@ var (
 	mainSubService        = service.ServiceGroupApp.ImplServiceGroup.MainSubService
 	interfaceImplService  = service.ServiceGroupApp.ImplServiceGroup.InterfaceImplService
 	userService           = service.ServiceGroupApp.ImplServiceGroup.UserService
+	requestService        = service.ServiceGroupApp.ImplServiceGroup.RequestService
 )
