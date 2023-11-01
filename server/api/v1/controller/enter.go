@@ -23,4 +23,5 @@ var (
 	userService           = service.ServiceGroupApp.ImplServiceGroup.UserService
 	requestService        = service.ServiceGroupApp.ImplServiceGroup.RequestService
 	assertService         = service.ServiceGroupApp.AssertServiceGroup.AssertService
+	jJsonPathService      = service.ServiceGroupApp.JsonPathServiceGroup.JsonPathService
 )
