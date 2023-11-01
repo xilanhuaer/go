@@ -22,4 +22,5 @@ var (
 	interfaceImplService  = service.ServiceGroupApp.ImplServiceGroup.InterfaceImplService
 	userService           = service.ServiceGroupApp.ImplServiceGroup.UserService
 	requestService        = service.ServiceGroupApp.ImplServiceGroup.RequestService
+	assertService         = service.ServiceGroupApp.AssertServiceGroup.AssertService
 )
