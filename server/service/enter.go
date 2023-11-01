@@ -7,7 +7,7 @@ import (
 
 type ServiceGroup struct {
 	ImplServiceGroup   impl.ServiceGroup
-	AssertServiceGroup assert.AssertGroup
+	AssertServiceGroup assert.AssertServiceGroup
 }
 
 var ServiceGroupApp = new(ServiceGroup)

@@ -1,5 +1,5 @@
 package assert
 
-type AssertGroup struct {
+type AssertServiceGroup struct {
 	AssertService
 }
