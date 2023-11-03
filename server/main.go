@@ -13,7 +13,14 @@ func main() {
 	global.Connection("./config/config.yaml")
 	r := gin.New()
 	r.Use(gin.Logger())
-	r.Use(cors.Default())
+	r.Use(cors.New(
+		cors.Config{
+			AllowAllOrigins:  true,
+			AllowMethods:     []string{"*"},
+			AllowHeaders:     []string{"*"},
+			AllowCredentials: true,
+		},
+	))
 	jwt := &middleware.JWTAuthMiddleware{}
 	r.Use(jwt.JWTAuthMiddleware())
 	router.Register(r)
