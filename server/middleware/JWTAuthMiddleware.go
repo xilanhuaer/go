@@ -8,8 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type JWTAuthMiddleware struct {
-}
+type JWTAuthMiddleware struct{}
 
 func (j *JWTAuthMiddleware) JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
@@ -20,13 +19,13 @@ func (j *JWTAuthMiddleware) JWTAuthMiddleware() func(c *gin.Context) {
 		}
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
-			response.FailWithMessage("请求头中auth为空", c)
+			response.FailWithMessage("请登录系统后再进行操作", c)
 			c.Abort()
 			return
 		}
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
-			response.FailWithMessage("请求头中auth格式有误", c)
+			response.FailWithMessage("Token格式错误", c)
 			c.Abort()
 			return
 		}
