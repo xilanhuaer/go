@@ -9,8 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type InterfaceController struct {
-}
+type InterfaceController struct{}
 
 func (interfaceController *InterfaceController) Create(context *gin.Context) {
 	var (
@@ -52,6 +51,7 @@ func (interfaceController *InterfaceController) List(context *gin.Context) {
 	}
 	response.OKWithData(data, context)
 }
+
 func (interfaceController *InterfaceController) Find(context *gin.Context) {
 	id := context.Param("id")
 	data, err := interfaceService.Find(id)
@@ -61,6 +61,7 @@ func (interfaceController *InterfaceController) Find(context *gin.Context) {
 	}
 	response.OKWithData(data, context)
 }
+
 func (interfaceController *InterfaceController) Update(context *gin.Context) {
 	var (
 		e    entity.Interface
@@ -78,6 +79,7 @@ func (interfaceController *InterfaceController) Update(context *gin.Context) {
 	}
 	response.OKWithData(true, context)
 }
+
 func (interfaceController *InterfaceController) Enable(context *gin.Context) {
 	id := context.Param("id")
 	name := context.MustGet("username").(string)
@@ -93,6 +95,7 @@ func (interfaceController *InterfaceController) Enable(context *gin.Context) {
 	}
 	response.OKWithData(true, context)
 }
+
 func (interfaceController *InterfaceController) Delete(context *gin.Context) {
 	id := context.Param("id")
 	name := context.MustGet("username").(string)

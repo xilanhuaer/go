@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"interface/global"
 	"interface/model/common/response"
 	"interface/model/entity"
 	"log"
@@ -9,8 +10,7 @@ import (
 )
 
 // Path: go/server/api/v1/controller/user.go
-type UserController struct {
-}
+type UserController struct{}
 
 // 用户注册
 func (userCenter *UserController) Register(context *gin.Context) {
@@ -29,7 +29,7 @@ func (userCenter *UserController) Register(context *gin.Context) {
 		response.FailWithMessage("请求参数错误", context)
 		return
 	}
-	if registerData.Code != "register_code" {
+	if registerData.Code != global.Config.System.Code {
 		response.FailWithMessage("邀请码错误", context)
 		return
 	}
@@ -47,14 +47,11 @@ func (userCenter *UserController) Register(context *gin.Context) {
 		return
 	}
 	response.OKWithMessage("注册成功", context)
-
 }
 
 // 用户登录
 func (userController *UserController) Login(context *gin.Context) {
-	var (
-		user entity.User
-	)
+	var user entity.User
 	// 获取用户信息
 	if err := context.ShouldBindJSON(&user); err != nil {
 		response.FailWithMessage(err.Error(), context)
@@ -100,9 +97,7 @@ func (userController *UserController) UpdatePassword(context *gin.Context) {
 
 // 个人中心
 func (userController *UserController) UserCenter(context *gin.Context) {
-	var (
-		userId = context.MustGet("userId").(uint)
-	)
+	userId := context.MustGet("userId").(uint)
 	userinfo, err := userService.FindUserInfo(userId)
 	if err != nil {
 		response.FailWithMessage(err.Error(), context)
