@@ -16,8 +16,8 @@ func main() {
 	r.Use(gin.Logger())
 	r.Use(cors.New(cors.Config{
 		AllowAllOrigins:  true,
-		AllowHeaders:     []string{"*"},
 		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
 	}))
 	jwt := &middleware.JWTAuthMiddleware{}
